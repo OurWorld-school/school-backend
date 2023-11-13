@@ -3,7 +3,7 @@ const User = require("../models/User");
 const bcrypt = require("bcrypt");
 router.get("/", async (req, res) => {
   try {
-    const users = await User.find({});
+    const users = await User.find({}).sort({ createdAt: -1 });
     res.json(users);
   } catch (err) {
     res.status(500).json(err);
