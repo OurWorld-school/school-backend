@@ -261,47 +261,45 @@ router.put("/update/:id", async (req, res) => {
     remark: item.remark,
   }));
   try {
-    const nursery1result = await PreNurseryResult.findById(req.params.id);
+    const prenurseryresult = await PreNurseryResult.findById(req.params.id);
 
-    nursery1result.Numeracy =
-      NumeracyresultsWithTotal || nursery1result.NumeracyresultsWithTotal;
-    nursery1result.Literacy =
-      LiteracyresultWithTotal || nursery1result.LiteracyresultWithTotal;
-    nursery1result.Colouring =
-      ColouringresultsWithTotal || nursery1result.ColouringresultsWithTotal;
-    nursery1result.HealthHabit =
-      HealthHabitresultsWithTotal || nursery1result.HealthHabitresultsWithTotal;
-    nursery1result.Rhymes =
-      RhymesresultsWithTotal || nursery1result.RhymesresultsWithTotal;
-    nursery1result.PreScience =
-      PreScienceresultsWithTotal || nursery1result.PreScienceresultsWithTotal;
-    nursery1result.SensorialActivity =
-      SensorialActivityresultsWithTotal ||
-      nursery1result.SensorialActivityresultsWithTotal;
-    nursery1result.PracticalLife =
-      PracticalLiferesultsWithTotal ||
-      nursery1result.PracticalLiferesultsWithTotal;
+    prenurseryresult.Numeracy =
+      NumeracyresultsWithTotal || prenurseryresult.Numeracy;
+    prenurseryresult.Literacy =
+      LiteracyresultWithTotal || prenurseryresult.Literacy;
+    prenurseryresult.Colouring =
+      ColouringresultsWithTotal || prenurseryresult.Colouring;
+    prenurseryresult.HealthHabit =
+      HealthHabitresultsWithTotal || prenurseryresult.HealthHabit;
+    prenurseryresult.Rhymes = RhymesresultsWithTotal || prenurseryresult.Rhymes;
+    prenurseryresult.PreScience =
+      PreScienceresultsWithTotal || prenurseryresult.PreScience;
+    prenurseryresult.SensorialActivity =
+      SensorialActivityresultsWithTotal || prenurseryresult.SensorialActivity;
+    prenurseryresult.PracticalLife =
+      PracticalLiferesultsWithTotal || prenurseryresult.PracticalLife;
 
-    nursery1result.classes = classes || nursery1result.classes;
-    nursery1result.year = year || nursery1result.year;
-    nursery1result.term = term || nursery1result.term;
-    nursery1result.schoolRegNumber =
-      req.body.schoolRegNumber || nursery1result.schoolRegNumber;
-    nursery1result.TotalScore =
+    prenurseryresult.classes = classes || prenurseryresult.classes;
+    prenurseryresult.year = year || prenurseryresult.year;
+    prenurseryresult.term = term || prenurseryresult.term;
+    prenurseryresult.schoolRegNumber =
+      req.body.schoolRegNumber || prenurseryresult.schoolRegNumber;
+    prenurseryresult.TotalScore =
       req.body.TotalScore || nursery1result.TotalScore;
-    nursery1result.TotalAverage =
-      req.body.TotalAverage || nursery1result.TotalAverage;
-    nursery1result.Position = req.body.Position || nursery1result.Position;
-    nursery1result.numberInClass =
-      req.body.numberInClass || nursery1result.numberInClass;
-    nursery1result.Remark = req.body.Remark || nursery1result.Remark;
-    nursery1result.HmRemark = req.body.HmRemark || nursery1result.HmRemark;
-    nursery1result.TotalGrade =
-      req.body.TotalGrade || nursery1result.TotalGrade;
-    nursery1result.Signature = req.body.Signature || nursery1result.Signature;
-    await nursery1result.save();
+    prenurseryresult.TotalAverage =
+      req.body.TotalAverage || prenurseryresult.TotalAverage;
+    prenurseryresult.Position = req.body.Position || prenurseryresult.Position;
+    prenurseryresult.numberInClass =
+      req.body.numberInClass || prenurseryresult.numberInClass;
+    prenurseryresult.Remark = req.body.Remark || prenurseryresult.Remark;
+    prenurseryresult.HmRemark = req.body.HmRemark || prenurseryresult.HmRemark;
+    prenurseryresult.TotalGrade =
+      req.body.TotalGrade || prenurseryresult.TotalGrade;
+    prenurseryresult.Signature =
+      req.body.Signature || prenurseryresult.Signature;
+    await prenurseryresult.save();
 
-    res.status(200).json(nursery1result);
+    res.status(200).json(prenurseryresult);
   } catch (err) {
     res.status(500).json({ err: "Failed to update" });
   }
