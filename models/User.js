@@ -13,6 +13,7 @@ const UserSchema = new mongoose.Schema(
     },
     schoolRegNumber: {
       type: String,
+      unique: true,
     },
 
     passportPhoto: {
@@ -20,7 +21,7 @@ const UserSchema = new mongoose.Schema(
     },
     email: {
       type: String,
-      required: true,
+      // required: true,
 
       unique: true,
     },

@@ -83,6 +83,39 @@ router.post("/registers", async (req, res) => {
     res.status(500).json(err);
   }
 });
+// Student LOGIN
+router.post("/student-login", async (req, res) => {
+  try {
+    const user = await User.findOne({
+      schoolRegNumber: req.body.schoolRegNumber,
+    });
+    !user && res.status(404).json("user not found");
+
+    const validPassword = await bcrypt.compare(
+      req.body.password,
+      user.password
+    );
+    !validPassword && res.status(400).json("wrong password");
+
+    res.status(200).json({
+      // token: generateToken(user._id),
+      _id: user._id,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      roles: user.roles,
+      email: user.email,
+      user: user.userType,
+      phoneNumber: user.phoneNumber,
+      passportPhoto: user.passportPhoto,
+      contactAdress: user.contactAdress,
+      isAdmin: user.isAdmin,
+      schoolRegNumber: user.schoolRegNumber,
+      currentClass: user.currentClass,
+    });
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
 
 //LOGIN
 router.post("/login", async (req, res) => {
