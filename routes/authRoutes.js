@@ -5,6 +5,49 @@ const User = require("../models/User");
 const { default: generateToken } = require("../Utils/generateToken");
 const imagekit = require("../Utils/imagekit");
 
+// /registerin
+router.post("/registers", async (req, res) => {
+  try {
+    const result = await imagekit.upload({
+      file: req.body.passportPhoto,
+      fileName: `${req.body.firstName}-${req.body.lastName}.jpg`,
+      // width:300,
+      // crop:"scale"
+    });
+    const newUser = new User({
+      firstName: req.body.firstName,
+      lastName: req.body.lastName,
+      userType: req.body.userType,
+      currentClass: req.body.currentClass,
+      roles: req.body.roles,
+      schoolRegNumber: req.body.schoolRegNumber,
+      phoneNumber: req.body.phoneNumber,
+      passportPhoto: result.url,
+      contactAdress: req.body.contactAdress,
+      // password: hashedPassword,
+    });
+
+    //save user and respond
+    const user = await newUser.save();
+
+    res.status(200).json({
+      // token: generateToken(user._id),
+      _id: user._id,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      roles: user.roles,
+      userType: user.userType,
+      currentClass: user.currentClass,
+      phoneNumber: user.phoneNumber,
+      passportPhoto: user.passportPhoto,
+      contactAdress: user.contactAdress,
+      isAdmin: user.isAdmin,
+      schoolRegNumber: user.schoolRegNumber,
+    });
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
 //REGISTER
 const transporter = nodemailer.createTransport({
   service: "gmail",
@@ -13,7 +56,7 @@ const transporter = nodemailer.createTransport({
     pass: "mictdtqklnuerfkg",
   },
 });
-router.post("/registers", async (req, res) => {
+router.post("/register", async (req, res) => {
   //  const {class}=req.body;
   //   const modifyClass = class.replace(/\s+/g, "_");
   try {
