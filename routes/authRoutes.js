@@ -46,14 +46,14 @@ router.post("/registers", async (req, res) => {
       // password: hashedPassword,
     });
     ////nodemailer
-    const mailOptions = {
-      from: "ourworldintschool1@gmail.com",
-      to: req.body.email,
-      subject: "Registration Successful",
-      html: `<p>Hello ${req.body.firstName},</p>
-      <p>Thank you for registering with Our World International Nursery & Primary Shool e-portal. Your account has successfully been created.</p><p>Click <a href="https://ourworldintschool.ng/">here</a> to vsiti return to the site</p>`,
-      //   text: "Congratulations, your registration was successful!",
-    };
+    // const mailOptions = {
+    //   from: "ourworldintschool1@gmail.com",
+    //   to: req.body.email,
+    //   subject: "Registration Successful",
+    //   html: `<p>Hello ${req.body.firstName},</p>
+    //   <p>Thank you for registering with Our World International Nursery & Primary Shool e-portal. Your account has successfully been created.</p><p>Click <a href="https://ourworldintschool.ng/">here</a> to vsiti return to the site</p>`,
+
+    // };
 
     //save user and respond
     const user = await newUser.save();
