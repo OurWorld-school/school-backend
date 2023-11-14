@@ -37,7 +37,7 @@ router.post("/registers", async (req, res) => {
       lastName: req.body.lastName,
       userType: req.body.userType,
       currentClass: req.body.currentClass,
-      email: req.body.email,
+
       roles: req.body.roles,
       schoolRegNumber: req.body.schoolRegNumber,
       phoneNumber: req.body.phoneNumber,
@@ -70,7 +70,7 @@ router.post("/registers", async (req, res) => {
       firstName: user.firstName,
       lastName: user.lastName,
       roles: user.roles,
-      email: user.email,
+
       userType: user.userType,
       currentClass: user.currentClass,
       phoneNumber: user.phoneNumber,
@@ -103,7 +103,7 @@ router.post("/student-login", async (req, res) => {
       firstName: user.firstName,
       lastName: user.lastName,
       roles: user.roles,
-      email: user.email,
+
       user: user.userType,
       phoneNumber: user.phoneNumber,
       passportPhoto: user.passportPhoto,
@@ -120,7 +120,7 @@ router.post("/student-login", async (req, res) => {
 //LOGIN
 router.post("/login", async (req, res) => {
   try {
-    const user = await User.findOne({ email: req.body.email });
+    const user = await User.findOne({ phoneNumber: req.body.phoneNumber });
     !user && res.status(404).json("user not found");
 
     const validPassword = await bcrypt.compare(
@@ -135,7 +135,7 @@ router.post("/login", async (req, res) => {
       firstName: user.firstName,
       lastName: user.lastName,
       roles: user.roles,
-      email: user.email,
+
       user: user.userType,
       phoneNumber: user.phoneNumber,
       passportPhoto: user.passportPhoto,

@@ -19,9 +19,7 @@ const UserSchema = new mongoose.Schema(
     passportPhoto: {
       type: String,
     },
-    email: {
-      type: String,
-    },
+
     currentClass: {
       type: String,
     },
