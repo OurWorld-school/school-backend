@@ -239,20 +239,25 @@ router.get("/results/:user/:year/:term/", async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 });
-router.put("/updatePosition/:id", async (req, res) => {
+router.put("/updateResultPosition/:id", async (req, res) => {
+  const { id } = req.params;
+  const { Position } = req.body;
+
   try {
-    const preNurseryresult = await Basic1result.findById(req.params.id);
+    const prenurseryresult = await Basic1result.findById(id);
 
-    preNurseryresult.Position = req.body.Position || preNurseryresult.Position;
+    if (!prenurseryresult) {
+      return res.status(404).json({ message: "Result not found" });
+    }
 
-    const updatedResult = await preNurseryresult.save();
+    // Update the user's current class
+    prenurseryresult.Position = Position || prenurseryresult.Position;
+    await prenurseryresult.save();
 
-    res.status(200).json({
-      _id: updatedUser._id,
-      Position: updatedResult.Position,
-    });
-  } catch (err) {
-    res.status(500).json({ err: "Failed to update" });
+    res.json({ message: "Result Position updated successfully" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Failed to update" });
   }
 });
 router.put("/update/:id", async (req, res) => {
