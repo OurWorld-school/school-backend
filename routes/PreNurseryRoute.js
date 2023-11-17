@@ -167,7 +167,6 @@ router.get("/results/:user/:year/:term/", async (req, res) => {
     const prenurseryresult = await PreNurseryResult.findOne({
       user,
       year,
-
       term,
     }).populate("user", [
       "firstName",
@@ -181,7 +180,7 @@ router.get("/results/:user/:year/:term/", async (req, res) => {
     }
 
     // Return the result as JSON
-    res.json(prenurseryresult);
+    res.status(202).json(prenurseryresult);
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: "Server error" });
