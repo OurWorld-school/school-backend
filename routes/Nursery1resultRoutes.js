@@ -186,6 +186,22 @@ router.get("/results/:user/:year/:term/", async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 });
+router.put("/updatePosition/:id", async (req, res) => {
+  try {
+    const preNurseryresult = await Nursery1result.findById(req.params.id);
+
+    preNurseryresult.Position = req.body.Position || preNurseryresult.Position;
+
+    const updatedResult = await preNurseryresult.save();
+
+    res.status(200).json({
+      _id: updatedUser._id,
+      Position: updatedResult.Position,
+    });
+  } catch (err) {
+    res.status(500).json({ err: "Failed to update" });
+  }
+});
 router.put("/update/:id", async (req, res) => {
   const {
     English,
