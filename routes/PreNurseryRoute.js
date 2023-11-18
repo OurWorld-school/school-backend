@@ -209,6 +209,129 @@ router.put("/updateResultPosition/:id", async (req, res) => {
   }
 });
 router.put("/update/:id", async (req, res) => {
+  const { id } = req.params;
+  const {
+    Numeracy,
+    Literacy,
+    Colouring,
+    HealthHabit,
+    PreScience,
+    PracticalLife,
+    Rhymes,
+    year,
+    term,
+    classes,
+    // class,
+    SensorialActivity,
+  } = req.body;
+  const NumeracyresultsWithTotal = Numeracy.map((item) => ({
+    test: item.test,
+    exam: item.exam,
+    totalScore: item.totalScore,
+    grade: item.grade,
+    remark: item.remark,
+  }));
+  const LiteracyresultWithTotal = Literacy.map((item) => ({
+    test: item.test,
+    exam: item.exam,
+    totalScore: item.totalScore,
+    grade: item.grade,
+    remark: item.remark,
+  }));
+  const ColouringresultsWithTotal = Colouring.map((item) => ({
+    test: item.test,
+    exam: item.exam,
+    totalScore: item.totalScore,
+    grade: item.grade,
+    remark: item.remark,
+  }));
+  const HealthHabitresultsWithTotal = HealthHabit.map((item) => ({
+    test: item.test,
+    exam: item.exam,
+    totalScore: item.totalScore,
+    grade: item.grade,
+    remark: item.remark,
+  }));
+  const PreScienceresultsWithTotal = PreScience.map((item) => ({
+    test: item.test,
+    exam: item.exam,
+    totalScore: item.totalScore,
+    grade: item.grade,
+    remark: item.remark,
+  }));
+  const PracticalLiferesultsWithTotal = PracticalLife.map((item) => ({
+    test: item.test,
+    exam: item.exam,
+    totalScore: item.totalScore,
+    grade: item.grade,
+    remark: item.remark,
+  }));
+  const RhymesresultsWithTotal = Rhymes.map((item) => ({
+    test: item.test,
+    exam: item.exam,
+    totalScore: item.totalScore,
+    grade: item.grade,
+    remark: item.remark,
+  }));
+  const SensorialActivityresultsWithTotal = SensorialActivity.map((item) => ({
+    test: item.test,
+    exam: item.exam,
+    totalScore: item.totalScore,
+    grade: item.grade,
+    remark: item.remark,
+  }));
+
+  try {
+    const prenurseryresult = await PreNurseryResult.findById(id);
+
+    if (!prenurseryresult) {
+      return res.status(404).json({ message: "Result not found" });
+    }
+
+    // Update the user's current class
+    prenurseryresult.Numeracy =
+      NumeracyresultsWithTotal || prenurseryresult.Numeracy;
+    prenurseryresult.Literacy =
+      LiteracyresultWithTotal || prenurseryresult.Literacy;
+    prenurseryresult.Colouring =
+      ColouringresultsWithTotal || prenurseryresult.Colouring;
+    prenurseryresult.HealthHabit =
+      HealthHabitresultsWithTotal || prenurseryresult.HealthHabit;
+    prenurseryresult.Rhymes = RhymesresultsWithTotal || prenurseryresult.Rhymes;
+    prenurseryresult.PreScience =
+      PreScienceresultsWithTotal || prenurseryresult.PreScience;
+    prenurseryresult.SensorialActivity =
+      SensorialActivityresultsWithTotal || prenurseryresult.SensorialActivity;
+    prenurseryresult.PracticalLife =
+      PracticalLiferesultsWithTotal || prenurseryresult.PracticalLife;
+    prenurseryresult.classes = classes || prenurseryresult.classes;
+    prenurseryresult.year = year || prenurseryresult.year;
+    prenurseryresult.term = term || prenurseryresult.term;
+    prenurseryresult.schoolRegNumber =
+      req.body.schoolRegNumber || prenurseryresult.schoolRegNumber;
+    prenurseryresult.TotalScore =
+      req.body.TotalScore || prenurseryresult.TotalScore;
+    prenurseryresult.TotalAverage =
+      req.body.TotalAverage || prenurseryresult.TotalAverage;
+    prenurseryresult.Position = req.body.Position || prenurseryresult.Position;
+    prenurseryresult.numberInClass =
+      req.body.numberInClass || prenurseryresult.numberInClass;
+    prenurseryresult.Remark = req.body.Remark || prenurseryresult.Remark;
+    prenurseryresult.HmRemark = req.body.HmRemark || prenurseryresult.HmRemark;
+    prenurseryresult.TotalGrade =
+      req.body.TotalGrade || prenurseryresult.TotalGrade;
+    prenurseryresult.Signature =
+      req.body.Signature || prenurseryresult.Signature;
+
+    await prenurseryresult.save();
+
+    res.json({ message: "Result updated successfully" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Failed to update" });
+  }
+});
+router.put("/updateResultSheet/:id", async (req, res) => {
   const {
     Numeracy,
     Literacy,
