@@ -267,16 +267,16 @@ router.put("/update/:id", async (req, res) => {
   const {
     English,
     Mathematics,
-    SocialStudies,
+    History,
     CRK,
     VerbalReasoning,
     QuantitativeReasoning,
     BasicScience,
     Phonics,
     French,
-    Writing,
-
     Computer,
+    NationalValues,
+    PVC,
     year,
     term,
     classes,
@@ -381,13 +381,6 @@ router.put("/update/:id", async (req, res) => {
     grade: item.grade,
     remark: item.remark,
   }));
-  const PVCresultsWithTotal = PVC.map((item) => ({
-    test: item.test,
-    exam: item.exam,
-    totalScore: item.totalScore,
-    grade: item.grade,
-    remark: item.remark,
-  }));
   const HistoryresultsWithTotal = History.map((item) => ({
     test: item.test,
     exam: item.exam,
@@ -395,6 +388,14 @@ router.put("/update/:id", async (req, res) => {
     grade: item.grade,
     remark: item.remark,
   }));
+  const PVCresultsWithTotal = PVC.map((item) => ({
+    test: item.test,
+    exam: item.exam,
+    totalScore: item.totalScore,
+    grade: item.grade,
+    remark: item.remark,
+  }));
+
   try {
     const prenurseryresult = await Basic3result.findById(id);
 

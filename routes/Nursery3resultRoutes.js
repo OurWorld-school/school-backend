@@ -269,16 +269,16 @@ router.put("/update/:id", async (req, res) => {
   const {
     English,
     Mathematics,
-
+    History,
     CRK,
     VerbalReasoning,
     QuantitativeReasoning,
     BasicScience,
     Phonics,
     French,
-    Writing,
-
     Computer,
+    NationalValues,
+    PVC,
     year,
     term,
     classes,
