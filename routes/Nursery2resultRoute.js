@@ -249,7 +249,6 @@ router.put("/update/:id", async (req, res) => {
     Phonics,
     French,
     Writing,
-
     Computer,
     year,
     term,

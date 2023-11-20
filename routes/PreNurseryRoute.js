@@ -88,7 +88,7 @@ router.post("/", async (req, res) => {
       term,
       classes,
     });
-
+    await User.findById(req.params.userId);
     if (ResultAlreadyExits) {
       return res.status(404).json({ message: "User Result already Exits" });
     }
