@@ -82,12 +82,12 @@ router.post("/", async (req, res) => {
   // const grandTotal = English.totalScore + Mathematics.totalScore;
 
   try {
-    const ResultAlreadyExits = await PreNurseryResult.findOne({
-      userId,
-      year,
-      term,
-      classes,
-    });
+    const ResultAlreadyExits =
+      (await PreNurseryResult.findOne({
+        year,
+        term,
+        classes,
+      })) && (await User.findById(req.params.userId));
     await User.findById(req.params.userId);
     if (ResultAlreadyExits) {
       return res.status(404).json({ message: "User Result already Exits" });
