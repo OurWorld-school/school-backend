@@ -206,6 +206,7 @@ router.put("/updateResultPosition/:id", async (req, res) => {
     res.status(500).json({ message: "Failed to update" });
   }
 });
+
 router.put("/update/:id", async (req, res) => {
   const { id } = req.params;
   const {
