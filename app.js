@@ -16,6 +16,7 @@ const basic1Route = require("./routes/Basic1resultRoutes");
 const basic3Route = require("./routes/Basic3resultRoutes");
 const basic4Route = require("./routes/Basic4resultRoutes");
 const prenurseryRoute = require("./routes/PreNurseryRoute");
+const scratchcGenRoute = require("./routes/ScratchCardGenerateRoute");
 
 const mongoose = require("mongoose");
 const path = require("path");
@@ -81,6 +82,7 @@ app.use("/api/basic3result", basic3Route);
 app.use("/api/basic4result", basic4Route);
 app.use("/api/prenurseryresult", prenurseryRoute);
 app.use("/api/scratchcard", scratchcardRoute);
+app.use("/api/scratchGenerate", scratchcGenRoute);
 app.use(express.static(path.join(__dirname, "/build")));
 app.get("*", (req, res) =>
   res.sendFile(path.join(__dirname, "build/index.html"))

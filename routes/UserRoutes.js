@@ -42,28 +42,14 @@ router.put("/update/:id", async (req, res) => {
     user.firstName = req.body.firstName || user.firstName;
     user.lastName = req.body.lastName || user.lastName;
     user.currentClass = req.body.currentClass || user.currentClass;
-    user.email = req.body.email || user.email;
+
     user.roles = req.body.roles || user.roles;
     user.isAdmin = req.body.isAdmin || user.isAdmin;
     user.schoolRegNumber = req.body.schoolRegNumber || user.schoolRegNumber;
     user.phoneNumber = req.body.phoneNumber || user.phoneNumber;
     user.contactAdress = req.body.contactAdress || user.contactAdress;
     user.password = hash;
-    const updatedUser = await user.save();
-
-    res.status(200).json({
-      _id: updatedUser._id,
-      firstName: updatedUser.firstName,
-      currentClass: updatedUser.currentClass,
-      password: updatedUser.password,
-      roles: updatedUser.roles,
-      isAdmin: updatedUser.isAdmin,
-      lastName: updatedUser.lastName,
-      email: updatedUser.email,
-      phoneNumber: updatedUser.phoneNumber,
-      schoolRegNumber: updatedUser.schoolRegNumber,
-      contactAdress: updatedUser.contactAdress,
-    });
+    await user.save();
   } catch (err) {
     res.status(500).json({ err: "Failed to update" });
   }
