@@ -8,10 +8,10 @@ const imagekit = require("../Utils/imagekit");
 // /registerin
 router.post("/registers", async (req, res) => {
   try {
-    const userExist = await User.findOne({
-      schoolRegNumber: req.body.schoolRegNumber,
-    });
-    userExist && res.status(404).json("user already exist");
+    // const userExist = await User.findOne({
+    //   schoolRegNumber: req.body.schoolRegNumber,
+    // });
+    // userExist && res.status(404).json("user already exist");
     const result = await imagekit.upload({
       file: req.body.passportPhoto,
       fileName: `${req.body.firstName}-${req.body.lastName}.jpg`,

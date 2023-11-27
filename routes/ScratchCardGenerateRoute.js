@@ -36,7 +36,12 @@ router.post("/scratchcard-login", async (req, res) => {
       pin,
     });
     !card && res.status(404).json("card not found");
-
+    card.usageCount++;
+    if (card && card.usageCount >= 3) {
+      return res
+        .status(400)
+        .json({ error: "This card has already been used 5 times." });
+    }
     // const validPin = await compare(req.body.pin, card.pin);
     // !validPin && res.status(400).json("wrong password");
 
@@ -51,5 +56,12 @@ router.post("/scratchcard-login", async (req, res) => {
     res.status(500).json(err);
   }
 });
-
+router.get("/", async (req, res) => {
+  try {
+    const scratchcard = await Scratchcard.find({}).sort({ createdAt: -1 });
+    res.json(scratchcard);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+});
 module.exports = router;

@@ -13,7 +13,7 @@ const UserSchema = new mongoose.Schema(
     },
     schoolRegNumber: {
       type: String,
-      // unique: true,
+      unique: true,
     },
 
     passportPhoto: {
