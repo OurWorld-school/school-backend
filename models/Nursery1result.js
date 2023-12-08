@@ -173,6 +173,44 @@ const Nursery1resultSchema = new mongoose.Schema(
         },
       },
     ],
+    Phonics: [
+      {
+        test: {
+          type: Number,
+        },
+        exam: {
+          type: Number,
+        },
+        totalScore: {
+          type: Number,
+        },
+        grade: {
+          type: String,
+        },
+        remark: {
+          type: String,
+        },
+      },
+    ],
+    CreativeArt: [
+      {
+        test: {
+          type: Number,
+        },
+        exam: {
+          type: Number,
+        },
+        totalScore: {
+          type: Number,
+        },
+        grade: {
+          type: String,
+        },
+        remark: {
+          type: String,
+        },
+      },
+    ],
     TotalScore: {
       type: Number,
     },

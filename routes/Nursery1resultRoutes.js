@@ -15,6 +15,8 @@ router.post("/", async (req, res) => {
     year,
     term,
     classes,
+    Phonics,
+    CreativeArt,
     // class,
     Writing,
   } = req.body; // Assuming the request body contains the Biology data as an array of test and exam objects
@@ -77,7 +79,20 @@ router.post("/", async (req, res) => {
     grade: item.grade,
     remark: item.remark,
   }));
-
+  const PhonicsresultsWithTotal = Phonics.map((item) => ({
+    test: item.test,
+    exam: item.exam,
+    totalScore: item.totalScore,
+    grade: item.grade,
+    remark: item.remark,
+  }));
+  const CreativeArtresultsWithTotal = CreativeArt.map((item) => ({
+    test: item.test,
+    exam: item.exam,
+    totalScore: item.totalScore,
+    grade: item.grade,
+    remark: item.remark,
+  }));
   // const grandTotal = English.totalScore + Mathematics.totalScore;
 
   try {
@@ -101,6 +116,8 @@ router.post("/", async (req, res) => {
       AgricScience: AgricresultsWithTotal,
       Writing: WritingresultsWithTotal,
       SocialHabit: SocialHabitresultsWithTotal,
+      phonics: PhonicsresultsWithTotal,
+      CreativeArt: CreativeArtresultsWithTotal,
       user: userId,
       classes: classes,
       year: year,
@@ -217,6 +234,8 @@ router.put("/update/:id", async (req, res) => {
     BasicScience,
     AgricScience,
     Rhymes,
+    CreativeArt,
+    Phonics,
     year,
     term,
     classes,
@@ -279,7 +298,20 @@ router.put("/update/:id", async (req, res) => {
     grade: item.grade,
     remark: item.remark,
   }));
-
+  const CreativeArtresultsWithTotal = CreativeArt.map((item) => ({
+    test: item.test,
+    exam: item.exam,
+    totalScore: item.totalScore,
+    grade: item.grade,
+    remark: item.remark,
+  }));
+  const PhonicsresultsWithTotal = Phonics.map((item) => ({
+    test: item.test,
+    exam: item.exam,
+    totalScore: item.totalScore,
+    grade: item.grade,
+    remark: item.remark,
+  }));
   try {
     const prenurseryresult = await Nursery1result.findById(id);
 
@@ -301,7 +333,10 @@ router.put("/update/:id", async (req, res) => {
     prenurseryresult.Writing =
       WritingresultsWithTotal || prenurseryresult.Writing;
     prenurseryresult.Rhymes = RhymesresultsWithTotal || prenurseryresult.Rhymes;
-
+    prenurseryresult.Phonics =
+      PhonicsresultsWithTotal || prenurseryresult.Phonics;
+    prenurseryresult.CreativeArt =
+      CreativeArtresultsWithTotal || prenurseryresult.CreativeArt;
     prenurseryresult.HealthScience =
       HealthScienceresultsWithTotal || prenurseryresult.HealthScience;
     prenurseryresult.classes = classes || prenurseryresult.classes;
