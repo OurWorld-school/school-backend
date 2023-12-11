@@ -20,6 +20,7 @@ router.post("/", async (req, res) => {
     French,
     Computer,
     NationalValues,
+    HandWriting,
     PVC,
     year,
     term,
@@ -130,6 +131,13 @@ router.post("/", async (req, res) => {
     grade: item.grade,
     remark: item.remark,
   }));
+  const HandWritingresultsWithTotal = HandWriting.map((item) => ({
+    test: item.test,
+    exam: item.exam,
+    totalScore: item.totalScore,
+    grade: item.grade,
+    remark: item.remark,
+  }));
   // const grandTotal = English.totalScore + Mathematics.totalScore;
 
   try {
@@ -160,6 +168,7 @@ router.post("/", async (req, res) => {
       French: FrenchresultsWithTotal,
       Computer: ComputerresultsWithTotal,
       PVC: PVCresultsWithTotal,
+      HandWriting: HandWritingresultsWithTotal,
       user: userId,
       classes: classes,
       year: year,
@@ -276,6 +285,7 @@ router.put("/update/:id", async (req, res) => {
     French,
     Computer,
     NationalValues,
+    HandWriting,
     PVC,
     year,
     term,
@@ -395,7 +405,13 @@ router.put("/update/:id", async (req, res) => {
     grade: item.grade,
     remark: item.remark,
   }));
-
+  const HandWritingresultsWithTotal = HandWriting.map((item) => ({
+    test: item.test,
+    exam: item.exam,
+    totalScore: item.totalScore,
+    grade: item.grade,
+    remark: item.remark,
+  }));
   try {
     const prenurseryresult = await Basic3result.findById(id);
 
@@ -416,6 +432,8 @@ router.put("/update/:id", async (req, res) => {
     prenurseryresult.CRK = CRKresultsWithTotal || prenurseryresult.CRK;
     prenurseryresult.VerbalReasoning =
       VerbalReasoningresultsWithTotal || prenurseryresult.VerbalReasoning;
+    prenurseryresult.HandWriting =
+      HandWritingresultsWithTotal || prenurseryresult.HandWriting;
     prenurseryresult.QuantitativeReasoning =
       QuantitativeReasoningsultsWithTotal ||
       prenurseryresult.QuantitativeReasoning;

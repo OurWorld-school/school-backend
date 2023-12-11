@@ -287,6 +287,25 @@ const Basic2resultSchema = new mongoose.Schema(
         },
       },
     ],
+    HandWriting: [
+      {
+        test: {
+          type: Number,
+        },
+        exam: {
+          type: Number,
+        },
+        totalScore: {
+          type: Number,
+        },
+        grade: {
+          type: String,
+        },
+        remark: {
+          type: String,
+        },
+      },
+    ],
     TotalScore: {
       type: Number,
     },

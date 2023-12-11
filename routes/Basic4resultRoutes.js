@@ -21,6 +21,7 @@ router.post("/", async (req, res) => {
     French,
     Computer,
     NationalValues,
+    HandWriting,
     PVC,
     year,
     term,
@@ -131,6 +132,13 @@ router.post("/", async (req, res) => {
     grade: item.grade,
     remark: item.remark,
   }));
+  const HandWritingresultsWithTotal = HandWriting.map((item) => ({
+    test: item.test,
+    exam: item.exam,
+    totalScore: item.totalScore,
+    grade: item.grade,
+    remark: item.remark,
+  }));
   // const grandTotal = English.totalScore + Mathematics.totalScore;
 
   try {
@@ -160,6 +168,7 @@ router.post("/", async (req, res) => {
       Igbo: IgboresultsWithTotal,
       French: FrenchresultsWithTotal,
       Computer: ComputerresultsWithTotal,
+      HandWriting: HandWritingresultsWithTotal,
       PVC: PVCresultsWithTotal,
       user: userId,
       classes: classes,
@@ -431,6 +440,8 @@ router.put("/update/:id", async (req, res) => {
       NationalValuesresultsWithTotal || prenurseryresult.NationalValues;
     prenurseryresult.Writing =
       WritingresultsWithTotal || prenurseryresult.Writing;
+    prenurseryresult.HandWriting =
+      HandWritingresultsWithTotal || prenurseryresult.HandWriting;
     prenurseryresult.classes = classes || prenurseryresult.classes;
     prenurseryresult.year = year || prenurseryresult.year;
     prenurseryresult.term = term || prenurseryresult.term;

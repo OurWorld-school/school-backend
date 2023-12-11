@@ -20,6 +20,7 @@ router.post("/", async (req, res) => {
     Computer,
     NationalValues,
     PVC,
+    HandWriting,
     year,
     term,
     classes,
@@ -129,6 +130,13 @@ router.post("/", async (req, res) => {
     grade: item.grade,
     remark: item.remark,
   }));
+  const HandWritingresultsWithTotal = HandWriting.map((item) => ({
+    test: item.test,
+    exam: item.exam,
+    totalScore: item.totalScore,
+    grade: item.grade,
+    remark: item.remark,
+  }));
   // const grandTotal = English.totalScore + Mathematics.totalScore;
 
   try {
@@ -159,6 +167,7 @@ router.post("/", async (req, res) => {
       French: FrenchresultsWithTotal,
       Computer: ComputerresultsWithTotal,
       PVC: PVCresultsWithTotal,
+      HandWriting: HandWritingresultsWithTotal,
       user: userId,
       classes: classes,
       year: year,
@@ -276,6 +285,7 @@ router.put("/update/:id", async (req, res) => {
     Computer,
     NationalValues,
     PVC,
+    HandWriting,
     year,
     term,
     classes,
@@ -394,6 +404,13 @@ router.put("/update/:id", async (req, res) => {
     grade: item.grade,
     remark: item.remark,
   }));
+  const HandWritingresultsWithTotal = HandWriting.map((item) => ({
+    test: item.test,
+    exam: item.exam,
+    totalScore: item.totalScore,
+    grade: item.grade,
+    remark: item.remark,
+  }));
   try {
     const prenurseryresult = await Basic2result.findById(id);
 
@@ -419,6 +436,8 @@ router.put("/update/:id", async (req, res) => {
       prenurseryresult.QuantitativeReasoning;
     prenurseryresult.Phonics =
       PhonicsresultsWithTotal || prenurseryresult.Phonics;
+    prenurseryresult.HandWriting =
+      HandWritingresultsWithTotal || prenurseryresult.HandWriting;
     prenurseryresult.CreativeArt =
       CreativeArtresultsWithTotal || prenurseryresult.CreativeArt;
     prenurseryresult.Computer =

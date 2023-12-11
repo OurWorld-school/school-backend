@@ -25,6 +25,7 @@ router.post("/", async (req, res) => {
     classes,
     CreativeArt,
     Igbo,
+    HandWriting,
   } = req.body; // Assuming the request body contains the Biology data as an array of test and exam objects
 
   // const modifyClass = class.replace(/\s+/g, "-");
@@ -129,6 +130,13 @@ router.post("/", async (req, res) => {
     grade: item.grade,
     remark: item.remark,
   }));
+  const HandWritingresultsWithTotal = HandWriting.map((item) => ({
+    test: item.test,
+    exam: item.exam,
+    totalScore: item.totalScore,
+    grade: item.grade,
+    remark: item.remark,
+  }));
   // const grandTotal = English.totalScore + Mathematics.totalScore;
 
   try {
@@ -150,6 +158,7 @@ router.post("/", async (req, res) => {
       BasicScience: BasicScienceresultsWithTotal,
       History: HistoryresultsWithTotal,
       CRK: CRKresultsWithTotal,
+      HandWriting: HandWritingresultsWithTotal,
       VerbalReasoning: VerbalReasoningresultsWithTotal,
       NationalValues: NationalValuesresultsWithTotal,
       QuantitativeReasoning: QuantitativeReasoningsultsWithTotal,
@@ -280,6 +289,7 @@ router.put("/update/:id", async (req, res) => {
     term,
     classes,
     CreativeArt,
+    HandWriting,
     Igbo,
   } = req.body; // Assuming the request body contains the Biology data as an array of test and exam objects
 
@@ -394,6 +404,13 @@ router.put("/update/:id", async (req, res) => {
     grade: item.grade,
     remark: item.remark,
   }));
+  const HandWritingresultsWithTotal = HandWriting.map((item) => ({
+    test: item.test,
+    exam: item.exam,
+    totalScore: item.totalScore,
+    grade: item.grade,
+    remark: item.remark,
+  }));
   try {
     const prenurseryresult = await Basic1result.findById(id);
 
@@ -429,6 +446,8 @@ router.put("/update/:id", async (req, res) => {
       NationalValuesresultsWithTotal || prenurseryresult.NationalValues;
     prenurseryresult.Writing =
       WritingresultsWithTotal || prenurseryresult.Writing;
+    prenurseryresult.HandWriting =
+      HandWritingresultsWithTotal || prenurseryresult.HandWriting;
     prenurseryresult.classes = classes || prenurseryresult.classes;
     prenurseryresult.year = year || prenurseryresult.year;
     prenurseryresult.term = term || prenurseryresult.term;
