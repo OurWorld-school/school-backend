@@ -222,6 +222,21 @@ router.get("/:id", async (req, res) => {
     res.status(500).json(err);
   }
 });
+router.get("/get:id", async (req, res) => {
+  try {
+    const nursery3result = await Nursery3result.findById(
+      req.params.id
+    ).populate("user", [
+      "firstName",
+      "lastName",
+      "passportPhoto",
+      "schoolRegNumber",
+    ]);
+    res.status(200).json(nursery3result);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
 router.get("/results/:user/:year/:term/", async (req, res) => {
   try {
     const { user, year, term } = req.params;
