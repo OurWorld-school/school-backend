@@ -116,7 +116,7 @@ router.post("/", async (req, res) => {
       AgricScience: AgricresultsWithTotal,
       Writing: WritingresultsWithTotal,
       SocialHabit: SocialHabitresultsWithTotal,
-      phonics: PhonicsresultsWithTotal,
+      Phonics: PhonicsresultsWithTotal,
       CreativeArt: CreativeArtresultsWithTotal,
       user: userId,
       classes: classes,
