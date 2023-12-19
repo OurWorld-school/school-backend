@@ -131,7 +131,7 @@ router.post("/register", async (req, res) => {
   }
 });
 // Student LOGIN
-router.post("/student-login", async (req, res) => {
+router.post("/student-loginss", async (req, res) => {
   try {
     const user = await User.findOne({
       schoolRegNumber: req.body.schoolRegNumber,
@@ -191,6 +191,31 @@ router.post("/login", async (req, res) => {
     });
   } catch (err) {
     res.status(500).json(err);
+  }
+});
+//////login
+
+router.post("/student-login", async (req, res) => {
+  try {
+    const { schoolRegNumber, password } = req.body;
+    const user = await User.findOne({ schoolRegNumber });
+
+    if (!user) {
+      return res.status(401).send("Invalid credentials");
+    }
+
+    const isPasswordMatch = await bcrypt.compare(password, user.password);
+
+    if (!isPasswordMatch) {
+      return res.status(401).send("Invalid credentials");
+    }
+
+    // Set up a session or JWT token here if needed
+
+    res.status(200).send("Login successful");
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Internal Server Error");
   }
 });
 //Forgotten password
