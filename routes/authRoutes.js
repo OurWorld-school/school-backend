@@ -164,7 +164,7 @@ router.post("/student-loginss", async (req, res) => {
 });
 
 //LOGIN
-router.post("/login", async (req, res) => {
+router.post("/logins", async (req, res) => {
   try {
     const user = await User.findOne({ phoneNumber: req.body.phoneNumber });
     !user && res.status(404).json("user not found");
@@ -194,7 +194,30 @@ router.post("/login", async (req, res) => {
   }
 });
 //////login
+router.post("/login", async (req, res) => {
+  try {
+    const { phoneNumber, password } = req.body;
+    const user = await User.findOne({ phoneNumber });
 
+    if (!user) {
+      return res.status(401).send("Invalid credentials");
+    }
+
+    const isPasswordMatch = await bcrypt.compare(password, user.password);
+
+    if (!isPasswordMatch) {
+      return res.status(401).send("Invalid credentials");
+    }
+
+    // Set up a session or JWT token here if needed
+
+    res.status(200).send("Login successful");
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Internal Server Error");
+  }
+});
+///////
 router.post("/student-login", async (req, res) => {
   try {
     const { schoolRegNumber, password } = req.body;
