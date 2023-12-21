@@ -54,6 +54,8 @@ const UserSchema = new mongoose.Schema(
       max: 12,
       default: "123456",
     },
+    resetToken: { type: String },
+    resetTokenExpiry: { type: Date },
     prenurseryresult: [
       { type: mongoose.Schema.Types.ObjectId, ref: "PresNurseryResult" },
     ],

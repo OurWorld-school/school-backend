@@ -355,6 +355,73 @@ router.post("/reset-password", async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 });
-///
+/// reset password
+// Request a password reset token
+router.post("/forgoten-password", async (req, res) => {
+  const { schoolRegNumber } = req.body;
 
+  try {
+    const user = await User.findOne({ schoolRegNumber });
+
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    // Generate a reset token and set its expiry
+    const resetToken = Math.random().toString(36).substr(2, 10);
+    user.resetToken = resetToken;
+    user.resetTokenExpiry = Date.now() + 3600000; // Token valid for 1 hour
+
+    await user.save();
+
+    // // Send the reset token to the user's email (you'll need to configure nodemailer)
+    // const transporter = nodemailer.createTransport({
+    //   // configure your mail transport
+    // });
+
+    // const mailOptions = {
+    //   to: user.email,
+    //   subject: 'Password Reset',
+    //   text: `Your password reset token is: ${resetToken}`,
+    // };
+
+    // await transporter.sendMail(mailOptions);
+
+    res.json({ message: "Password reset token sent successfully" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+// Reset password with a valid token
+router.post("/reset-user-password", async (req, res) => {
+  const { schoolRegNumber, resetToken, newPassword } = req.body;
+
+  try {
+    const user = await User.findOne({
+      schoolRegNumber,
+      resetToken,
+      resetTokenExpiry: { $gt: Date.now() },
+    });
+
+    if (!user) {
+      return res.status(400).json({ error: "Invalid or expired token" });
+    }
+
+    // Update the user's password and clear the reset token fields
+    user.password = await bcrypt.hash(newPassword, 10);
+    user.resetToken = undefined;
+    user.resetTokenExpiry = undefined;
+
+    await user.save();
+
+    res.json({ message: "Password reset successful" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+//////
 module.exports = router;
