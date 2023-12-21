@@ -235,7 +235,20 @@ router.post("/student-login", async (req, res) => {
 
     // Set up a session or JWT token here if needed
 
-    res.status(200).send("Login successful");
+    res.status(200).send({
+      // token: generateToken(user._id),
+      _id: user._id,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      roles: user.roles,
+      user: user.userType,
+      phoneNumber: user.phoneNumber,
+      passportPhoto: user.passportPhoto,
+      contactAdress: user.contactAdress,
+      isAdmin: user.isAdmin,
+      schoolRegNumber: user.schoolRegNumber,
+      currentClass: user.currentClass,
+    });
   } catch (error) {
     console.error(error);
     res.status(500).send("Internal Server Error");
