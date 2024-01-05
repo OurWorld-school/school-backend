@@ -64,4 +64,22 @@ router.get("/", async (req, res) => {
     res.status(500).json(error);
   }
 });
+router.put("/usageCount/:id", async (req, res) => {
+  const id = req.params.id;
+  try {
+    const scratchcard = await Scratchcard.findById(id);
+    if (!scratchcard) {
+      return res.status(404).json({ error: "scratchcard not found" });
+    }
+    // Increment the download count
+    scratchcard.usageCount++;
+    //  mp3.downloadCount += 1;
+    await scratchcard.save();
+
+    // Return a response indicating success
+    res.status(200).json({ message: "usageCount incremented successfully" });
+  } catch (err) {
+    res.status(500).json({ err: "Unable to update count" });
+  }
+});
 module.exports = router;
