@@ -64,10 +64,10 @@ router.get("/", async (req, res) => {
     res.status(500).json(error);
   }
 });
-router.put("/usageCount/:id", async (req, res) => {
-  const id = req.params.id;
+router.put("/usageCount/:pin", async (req, res) => {
+  const pin = req.params.pin;
   try {
-    const scratchcard = await Scratchcard.findById(id);
+    const scratchcard = await Scratchcard.findOne(pin);
     if (!scratchcard) {
       return res.status(404).json({ error: "scratchcard not found" });
     }
