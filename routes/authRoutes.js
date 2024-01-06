@@ -423,5 +423,30 @@ router.post("/reset-user-password", async (req, res) => {
   }
 });
 
-//////
+//////reset password without token
+router.post("/reset-password", async (req, res) => {
+  const { schoolRegNumber, newPassword } = req.body;
+
+  try {
+    // Find user by registration number
+    const user = await User.findOne({ schoolRegNumber });
+
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    // Hash the new password
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+    // Update the user's password
+    await User.updateOne({ regNumber }, { password: hashedPassword });
+
+    res.json({ message: "Password reset successful" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+////////
 module.exports = router;
