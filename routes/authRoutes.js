@@ -396,7 +396,7 @@ router.post("/forgoten-password", async (req, res) => {
 
 // Reset password with a valid token
 // Reset password route
-router.post('/reset-password', async (req, res) => {
+router.post("/reset-password", async (req, res) => {
   const { schoolRegNumber, newPassword } = req.body;
 
   try {
@@ -404,20 +404,21 @@ router.post('/reset-password', async (req, res) => {
     const user = await User.findOne({ schoolRegNumber });
 
     if (!user) {
-      return res.status(404).json({ error: 'User not found' });
+      return res.status(404).json({ error: "User not found" });
     }
 
     // Hash the new password
     const hashedPassword = await bcrypt.hash(newPassword, 10);
 
     // Update the user's password
-    user.password = hashedPassword;
+    await User.updateOne({ regNumber }, { password: hashedPassword });
+    // user.password = hashedPassword;
     await user.save();
 
-    res.json({ message: 'Password reset successful' });
+    res.json({ message: "Password reset successful" });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: 'Internal server error' });
+    res.status(500).json({ error: "Internal server error" });
   }
 });
 
