@@ -413,12 +413,12 @@ router.post("/reset-password", async (req, res) => {
     // Update the user's password
     await User.updateOne({ regNumber }, { password: hashedPassword });
     // user.password = hashedPassword;
-    await user.save();
+    // await user.save();
 
     res.json({ message: "Password reset successful" });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: "Internal server error" });
+    res.status(500).json({ error: "Failed to reset password" });
   }
 });
 
