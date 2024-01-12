@@ -512,4 +512,20 @@ router.put("/update/otherFields/:id", async (req, res) => {
   }
 });
 ////
+router.put("/deactivateResultEdit", async (req, res) => {
+  try {
+    const { classes, year, term } = req.body;
+
+    // Update all records that match the criteria
+    const result = await Basic1result.updateMany(
+      { classes, year, term },
+      { $set: { deActivateResultEdith: true } }
+    );
+
+    res.json(result);
+  } catch (error) {
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+/////
 module.exports = router;
