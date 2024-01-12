@@ -396,7 +396,7 @@ router.post("/forgoten-password", async (req, res) => {
 
 // Reset password with a valid token
 // Reset password route
-router.post("/reset-password", async (req, res) => {
+router.post("/reset-user-password", async (req, res) => {
   const { schoolRegNumber, newPassword } = req.body;
 
   try {
@@ -411,7 +411,7 @@ router.post("/reset-password", async (req, res) => {
     const hashedPassword = await bcrypt.hash(newPassword, 10);
 
     // Update the user's password
-    await User.updateOne({ regNumber }, { password: hashedPassword });
+    await User.updateOne({ schoolRegNumber }, { password: hashedPassword });
     // user.password = hashedPassword;
     // await user.save();
 
