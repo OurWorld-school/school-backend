@@ -15,6 +15,8 @@ const basic2Route = require("./routes/Basic2resultRoutes");
 const basic1Route = require("./routes/Basic1resultRoutes");
 const basic3Route = require("./routes/Basic3resultRoutes");
 const basic4Route = require("./routes/Basic4resultRoutes");
+const basic5Route = require("./routes/Basic5resultRoutes");
+const basic6Route = require("./routes/Basic6resultRoutes");
 const prenurseryRoute = require("./routes/PreNurseryRoute");
 const scratchcGenRoute = require("./routes/ScratchCardGenerateRoute");
 
@@ -80,6 +82,8 @@ app.use("/api/basic1result", basic1Route);
 app.use("/api/basic2result", basic2Route);
 app.use("/api/basic3result", basic3Route);
 app.use("/api/basic4result", basic4Route);
+app.use("/api/basic5result", basic5Route);
+app.use("/api/basic6result", basic6Route);
 app.use("/api/prenurseryresult", prenurseryRoute);
 app.use("/api/scratchcard", scratchcardRoute);
 app.use("/api/scratchGenerate", scratchcGenRoute);

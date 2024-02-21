@@ -330,6 +330,7 @@ const Basic4resultSchema = new mongoose.Schema(
     Signature: {
       type: String,
     },
+    deActivateResultEdith: { type: Boolean, default: false },
   },
   {
     timestamps: true,
