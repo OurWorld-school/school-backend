@@ -528,4 +528,31 @@ router.put("/deactivateResultEdit", async (req, res) => {
   }
 });
 /////
+router.get("/:year/:term/", async (req, res) => {
+  try {
+    const { year, term } = req.params;
+
+    // Use the parameters to query the database
+    const basic5result = await Basic1result.findOne({
+      year,
+
+      term,
+    }).populate("user", [
+      "firstName",
+      "lastName",
+      "passportPhoto",
+      "schoolRegNumber",
+    ]);
+
+    if (!basic5result) {
+      return res.status(404).json({ message: "Result not found" });
+    }
+
+    // Return the result as JSON
+    res.json(basic5result);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Server error" });
+  }
+});
 module.exports = router;
