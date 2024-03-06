@@ -19,13 +19,13 @@ const PreNurseryResultSchema = new mongoose.Schema(
     },
 
     schoolRegNumber: {
-      type: String, 
+      type: String,
     },
     Numeracy: [
       {
         test: {
           type: Number,
-        }, 
+        },
         exam: {
           type: Number,
         },
@@ -197,6 +197,7 @@ const PreNurseryResultSchema = new mongoose.Schema(
     Signature: {
       type: String,
     },
+    deActivateResultEdith: { type: Boolean, default: false },
   },
   {
     timestamps: true,
