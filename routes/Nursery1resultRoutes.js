@@ -14,6 +14,7 @@ router.post("/", async (req, res) => {
     Rhymes,
     year,
     term,
+    user,
     classes,
     Phonics,
     CreativeArt,
@@ -96,12 +97,14 @@ router.post("/", async (req, res) => {
   // const grandTotal = English.totalScore + Mathematics.totalScore;
 
   try {
-    const ResultAlreadyExits =
-      (await Nursery1result.findOne({
-        year,
-        term,
-        classes,
-      })) && (await User.findById(req.params.userId));
+    const ResultAlreadyExits = await Nursery1result.findOne({
+      year,
+      term,
+      classes,
+      user,
+    });
+    //    && (await User.findById(req.params.userId));
+
     if (ResultAlreadyExits) {
       return res.status(404).json({ message: "User Result already Exits" });
     }

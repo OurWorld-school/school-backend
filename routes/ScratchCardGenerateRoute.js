@@ -37,7 +37,7 @@ router.post("/scratchcard-login", async (req, res) => {
     });
     !card && res.status(404).json("card not found");
     card.usageCount++;
-    if (card && card.usageCount >= 10) {
+    if (card && card.usageCount >= 30) {
       return res
         .status(400)
         .json({ error: "This card has already been used 5 times." });

@@ -14,6 +14,7 @@ router.post("/", async (req, res) => {
     PracticalLife,
     Rhymes,
     year,
+    user,
     term,
     classes,
     // class,
@@ -82,17 +83,17 @@ router.post("/", async (req, res) => {
   // const grandTotal = English.totalScore + Mathematics.totalScore;
 
   try {
-    const ResultAlreadyExits =
-      (await PreNurseryResult.findOne({
-        year,
-        term,
-        classes,
-      })) && (await User.findById(req.params.userId));
-    await User.findById(req.params.userId);
+    const ResultAlreadyExits = await PreNurseryResult.findOne({
+      year,
+      term,
+      classes,
+      user,
+    });
+    //    && (await User.findById(req.params.userId));
+
     if (ResultAlreadyExits) {
       return res.status(404).json({ message: "User Result already Exits" });
     }
-
     // Create a new result document in the database with the Biology array containing total scores
     const newResult = new PreNurseryResult({
       Numeracy: NumeracyresultsWithTotal,

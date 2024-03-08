@@ -21,6 +21,7 @@ router.post("/", async (req, res) => {
     NationalValues,
     PVC,
     year,
+    user,
     term,
     classes,
     CreativeArt,
@@ -140,17 +141,17 @@ router.post("/", async (req, res) => {
   // const grandTotal = English.totalScore + Mathematics.totalScore;
 
   try {
-    const ResultAlreadyExits =
-      (await Basic1result.findOne({
-        year,
-        term,
-        classes,
-      })) && (await User.findById(req.params.userId));
+    const ResultAlreadyExits = await Basic1result.findOne({
+      year,
+      term,
+      classes,
+      user,
+    });
+    //    && (await User.findById(req.params.userId));
 
     if (ResultAlreadyExits) {
       return res.status(404).json({ message: "User Result already Exits" });
     }
-
     // Create a new result document in the database with the Biology array containing total scores
     const newResult = new Basic1result({
       English: EnglishresultsWithTotal,
