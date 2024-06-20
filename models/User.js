@@ -80,6 +80,30 @@ const UserSchema = new mongoose.Schema(
     basic4result: [
       { type: mongoose.Schema.Types.ObjectId, ref: "Basic4result" },
     ],
+    prenurserycommulative: [
+      { type: mongoose.Schema.Types.ObjectId, ref: "PreNurseryCommulative" },
+    ],
+    nursery1commulative: [
+      { type: mongoose.Schema.Types.ObjectId, ref: "Nusery1Commulative" },
+    ],
+    nursery2commulative: [
+      { type: mongoose.Schema.Types.ObjectId, ref: "Nusery2Commulative" },
+    ],
+    nursery3commulative: [
+      { type: mongoose.Schema.Types.ObjectId, ref: "Nusery3Commulative" },
+    ],
+    basic1commulative: [
+      { type: mongoose.Schema.Types.ObjectId, ref: "Basic1Commulative" },
+    ],
+    basic2commulative: [
+      { type: mongoose.Schema.Types.ObjectId, ref: "Basic2Commulative" },
+    ],
+    basic3commulative: [
+      { type: mongoose.Schema.Types.ObjectId, ref: "Basic3Commulative" },
+    ],
+    basic4commulative: [
+      { type: mongoose.Schema.Types.ObjectId, ref: "Basic4Commulative" },
+    ],
   },
 
   { timestamps: true }

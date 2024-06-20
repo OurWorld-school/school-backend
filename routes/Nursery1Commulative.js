@@ -1,3 +1,4 @@
+const Nursery1Commulative = require("../models/Nursery1Commulative");
 const User = require("../models/User");
 
 const router = require("express").Router();
@@ -24,79 +25,99 @@ router.post("/", async (req, res) => {
   // const modifyClass = class.replace(/\s+/g, "-");
   // Calculate the total score for each entry in the Biology array
   const EnglishresultsWithTotal = English.map((item) => ({
-    test: item.test,
-    exam: item.exam,
+    total1stTermScore: item.total1stTermScore,
+    total2ndTermScore: item.total2ndTermScore,
+    total3rdTermScore: item.total3rdTermScore,
     totalScore: item.totalScore,
+    totalAverage: item.totalAverage,
     grade: item.grade,
     remark: item.remark,
   }));
   const MathsresultsWithTotal = Mathematics.map((item) => ({
-    test: item.test,
-    exam: item.exam,
+    total1stTermScore: item.total1stTermScore,
+    total2ndTermScore: item.total2ndTermScore,
+    total3rdTermScore: item.total3rdTermScore,
     totalScore: item.totalScore,
+    totalAverage: item.totalAverage,
     grade: item.grade,
     remark: item.remark,
   }));
   const SocialHabitresultsWithTotal = SocialHabit.map((item) => ({
-    test: item.test,
-    exam: item.exam,
+    total1stTermScore: item.total1stTermScore,
+    total2ndTermScore: item.total2ndTermScore,
+    total3rdTermScore: item.total3rdTermScore,
     totalScore: item.totalScore,
+    totalAverage: item.totalAverage,
     grade: item.grade,
     remark: item.remark,
   }));
   const HealthScienceresultsWithTotal = HealthScience.map((item) => ({
-    test: item.test,
-    exam: item.exam,
+    total1stTermScore: item.total1stTermScore,
+    total2ndTermScore: item.total2ndTermScore,
+    total3rdTermScore: item.total3rdTermScore,
     totalScore: item.totalScore,
+    totalAverage: item.totalAverage,
     grade: item.grade,
     remark: item.remark,
   }));
   const BasicScienceresultsWithTotal = BasicScience.map((item) => ({
-    test: item.test,
-    exam: item.exam,
+    total1stTermScore: item.total1stTermScore,
+    total2ndTermScore: item.total2ndTermScore,
+    total3rdTermScore: item.total3rdTermScore,
     totalScore: item.totalScore,
+    totalAverage: item.totalAverage,
     grade: item.grade,
     remark: item.remark,
   }));
   const AgricresultsWithTotal = AgricScience.map((item) => ({
-    test: item.test,
-    exam: item.exam,
+    total1stTermScore: item.total1stTermScore,
+    total2ndTermScore: item.total2ndTermScore,
+    total3rdTermScore: item.total3rdTermScore,
     totalScore: item.totalScore,
+    totalAverage: item.totalAverage,
     grade: item.grade,
     remark: item.remark,
   }));
   const RhymesresultsWithTotal = Rhymes.map((item) => ({
-    test: item.test,
-    exam: item.exam,
+    total1stTermScore: item.total1stTermScore,
+    total2ndTermScore: item.total2ndTermScore,
+    total3rdTermScore: item.total3rdTermScore,
     totalScore: item.totalScore,
+    totalAverage: item.totalAverage,
     grade: item.grade,
     remark: item.remark,
   }));
   const WritingresultsWithTotal = Writing.map((item) => ({
-    test: item.test,
-    exam: item.exam,
+    total1stTermScore: item.total1stTermScore,
+    total2ndTermScore: item.total2ndTermScore,
+    total3rdTermScore: item.total3rdTermScore,
     totalScore: item.totalScore,
+    totalAverage: item.totalAverage,
     grade: item.grade,
     remark: item.remark,
   }));
   const PhonicsresultsWithTotal = Phonics.map((item) => ({
-    test: item.test,
-    exam: item.exam,
+    total1stTermScore: item.total1stTermScore,
+    total2ndTermScore: item.total2ndTermScore,
+    total3rdTermScore: item.total3rdTermScore,
     totalScore: item.totalScore,
+    totalAverage: item.totalAverage,
     grade: item.grade,
     remark: item.remark,
   }));
   const CreativeArtresultsWithTotal = CreativeArt.map((item) => ({
-    test: item.test,
-    exam: item.exam,
+    total1stTermScore: item.total1stTermScore,
+    total2ndTermScore: item.total2ndTermScore,
+    total3rdTermScore: item.total3rdTermScore,
     totalScore: item.totalScore,
+    totalAverage: item.totalAverage,
     grade: item.grade,
     remark: item.remark,
   }));
   // const grandTotal = English.totalScore + Mathematics.totalScore;
 
   try {
-    const ResultAlreadyExits = await Nursery1result.findOne({
+    const ResultAlreadyExits = await Nusery1Commulative.findOne({
       year,
       term,
       classes,
@@ -109,7 +130,7 @@ router.post("/", async (req, res) => {
     }
 
     // Create a new result document in the database with the Biology array containing total scores
-    const newResult = new Nursery1result({
+    const newResult = new Nusery1Commulative({
       English: EnglishresultsWithTotal,
       Mathematics: MathsresultsWithTotal,
       BasicScience: BasicScienceresultsWithTotal,
@@ -138,7 +159,7 @@ router.post("/", async (req, res) => {
     // Update the user's document with the new result ID
 
     await User.findByIdAndUpdate(userId, {
-      $push: { nursery1result: newResult._id },
+      $push: { nursery1commulative: newResult._id },
     });
     return res.status(201).json(newResult);
   } catch (error) {
@@ -147,7 +168,7 @@ router.post("/", async (req, res) => {
 });
 router.get("/", async (req, res) => {
   try {
-    const nursery1results = await Nursery1result.find({})
+    const nursery1results = await Nursery1Commulative.find({})
       .sort({ createdAt: -1 })
       .populate("user", [
         "firstName",
@@ -163,7 +184,7 @@ router.get("/", async (req, res) => {
 });
 router.get("/:id", async (req, res) => {
   try {
-    const nursery1result = await Nursery1result.findById(
+    const nursery1result = await Nusery1Commulative.findById(
       req.params.id
     ).populate("user", [
       "firstName",
@@ -181,7 +202,7 @@ router.get("/results/:user/:year/:term/", async (req, res) => {
     const { user, year, term } = req.params;
 
     // Use the parameters to query the database
-    const nursery1result = await Nursery1result.findOne({
+    const nursery1result = await Nusery1Commulative.findOne({
       user,
       year,
 
@@ -209,7 +230,7 @@ router.put("/updateResultPosition/:id", async (req, res) => {
   const { Position } = req.body;
 
   try {
-    const prenurseryresult = await Nursery1result.findById(id);
+    const prenurseryresult = await Nusery1Commulative.findById(id);
 
     if (!prenurseryresult) {
       return res.status(404).json({ message: "Result not found" });
@@ -245,77 +266,97 @@ router.put("/update/:id", async (req, res) => {
     Writing,
   } = req.body;
   const EnglishresultsWithTotal = English.map((item) => ({
-    test: item.test,
-    exam: item.exam,
+    total1stTermScore: item.total1stTermScore,
+    total2ndTermScore: item.total2ndTermScore,
+    total3rdTermScore: item.total3rdTermScore,
     totalScore: item.totalScore,
+    totalAverage: item.totalAverage,
     grade: item.grade,
     remark: item.remark,
   }));
   const MathsresultsWithTotal = Mathematics.map((item) => ({
-    test: item.test,
-    exam: item.exam,
+    total1stTermScore: item.total1stTermScore,
+    total2ndTermScore: item.total2ndTermScore,
+    total3rdTermScore: item.total3rdTermScore,
     totalScore: item.totalScore,
+    totalAverage: item.totalAverage,
     grade: item.grade,
     remark: item.remark,
   }));
   const SocialHabitresultsWithTotal = SocialHabit.map((item) => ({
-    test: item.test,
-    exam: item.exam,
+    total1stTermScore: item.total1stTermScore,
+    total2ndTermScore: item.total2ndTermScore,
+    total3rdTermScore: item.total3rdTermScore,
     totalScore: item.totalScore,
+    totalAverage: item.totalAverage,
     grade: item.grade,
     remark: item.remark,
   }));
   const HealthScienceresultsWithTotal = HealthScience.map((item) => ({
-    test: item.test,
-    exam: item.exam,
+    total1stTermScore: item.total1stTermScore,
+    total2ndTermScore: item.total2ndTermScore,
+    total3rdTermScore: item.total3rdTermScore,
     totalScore: item.totalScore,
+    totalAverage: item.totalAverage,
     grade: item.grade,
     remark: item.remark,
   }));
   const BasicScienceresultsWithTotal = BasicScience.map((item) => ({
-    test: item.test,
-    exam: item.exam,
+    total1stTermScore: item.total1stTermScore,
+    total2ndTermScore: item.total2ndTermScore,
+    total3rdTermScore: item.total3rdTermScore,
     totalScore: item.totalScore,
+    totalAverage: item.totalAverage,
     grade: item.grade,
     remark: item.remark,
   }));
   const AgricresultsWithTotal = AgricScience.map((item) => ({
-    test: item.test,
-    exam: item.exam,
+    total1stTermScore: item.total1stTermScore,
+    total2ndTermScore: item.total2ndTermScore,
+    total3rdTermScore: item.total3rdTermScore,
     totalScore: item.totalScore,
+    totalAverage: item.totalAverage,
     grade: item.grade,
     remark: item.remark,
   }));
   const RhymesresultsWithTotal = Rhymes.map((item) => ({
-    test: item.test,
-    exam: item.exam,
+    total1stTermScore: item.total1stTermScore,
+    total2ndTermScore: item.total2ndTermScore,
+    total3rdTermScore: item.total3rdTermScore,
     totalScore: item.totalScore,
+    totalAverage: item.totalAverage,
     grade: item.grade,
     remark: item.remark,
   }));
   const WritingresultsWithTotal = Writing.map((item) => ({
-    test: item.test,
-    exam: item.exam,
+    total1stTermScore: item.total1stTermScore,
+    total2ndTermScore: item.total2ndTermScore,
+    total3rdTermScore: item.total3rdTermScore,
     totalScore: item.totalScore,
+    totalAverage: item.totalAverage,
     grade: item.grade,
     remark: item.remark,
   }));
   const CreativeArtresultsWithTotal = CreativeArt.map((item) => ({
-    test: item.test,
-    exam: item.exam,
+    total1stTermScore: item.total1stTermScore,
+    total2ndTermScore: item.total2ndTermScore,
+    total3rdTermScore: item.total3rdTermScore,
     totalScore: item.totalScore,
+    totalAverage: item.totalAverage,
     grade: item.grade,
     remark: item.remark,
   }));
   const PhonicsresultsWithTotal = Phonics.map((item) => ({
-    test: item.test,
-    exam: item.exam,
+    total1stTermScore: item.total1stTermScore,
+    total2ndTermScore: item.total2ndTermScore,
+    total3rdTermScore: item.total3rdTermScore,
     totalScore: item.totalScore,
+    totalAverage: item.totalAverage,
     grade: item.grade,
     remark: item.remark,
   }));
   try {
-    const prenurseryresult = await Nursery1result.findById(id);
+    const prenurseryresult = await Nusery1Commulative.findById(id);
 
     if (!prenurseryresult) {
       return res.status(404).json({ message: "Result not found" });
@@ -372,7 +413,7 @@ router.put("/deactivateResultEdit", async (req, res) => {
     const { classes, year, term } = req.body;
 
     // Update all records that match the criteria
-    const result = await Nursery1result.updateMany(
+    const result = await Nusery1Commulative.updateMany(
       { classes, year, term },
       { $set: { deActivateResultEdith: true } }
     );
@@ -388,7 +429,7 @@ router.get("/:year/:term/", async (req, res) => {
     const { year, term } = req.params;
 
     // Use the parameters to query the database
-    const basic5result = await Nursery1result.findOne({
+    const basic5result = await Nusery1Commulative.findOne({
       year,
 
       term,
