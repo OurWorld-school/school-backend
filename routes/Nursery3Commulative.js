@@ -14,7 +14,7 @@ router.post("/", async (req, res) => {
     BasicScience,
     Phonics,
     French,
-    Computer,
+    // Computer,
     NationalValues,
     PVC,
     year,
@@ -147,15 +147,15 @@ router.post("/", async (req, res) => {
     grade: item.grade,
     remark: item.remark,
   }));
-  const ComputerresultsWithTotal = Computer.map((item) => ({
-    total1stTermScore: item.total1stTermScore,
-    total2ndTermScore: item.total2ndTermScore,
-    total3rdTermScore: item.total3rdTermScore,
-    totalScore: item.totalScore,
-    totalAverage: item.totalAverage,
-    grade: item.grade,
-    remark: item.remark,
-  }));
+  // const ComputerresultsWithTotal = Computer.map((item) => ({
+  //   total1stTermScore: item.total1stTermScore,
+  //   total2ndTermScore: item.total2ndTermScore,
+  //   total3rdTermScore: item.total3rdTermScore,
+  //   totalScore: item.totalScore,
+  //   totalAverage: item.totalAverage,
+  //   grade: item.grade,
+  //   remark: item.remark,
+  // }));
   const HandWritingresultsWithTotal = HandWriting.map((item) => ({
     total1stTermScore: item.total1stTermScore,
     total2ndTermScore: item.total2ndTermScore,
@@ -194,7 +194,7 @@ router.post("/", async (req, res) => {
       Phonics: PhonicsresultsWithTotal,
       Igbo: IgboresultsWithTotal,
       French: FrenchresultsWithTotal,
-      Computer: ComputerresultsWithTotal,
+      // Computer: ComputerresultsWithTotal,
       PVC: PVCresultsWithTotal,
       HandWriting: HandWritingresultsWithTotal,
       user: userId,
