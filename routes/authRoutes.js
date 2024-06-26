@@ -1,6 +1,6 @@
 const router = require("express").Router();
 const nodemailer = require("nodemailer");
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 const User = require("../models/User");
 const { default: generateToken } = require("../Utils/generateToken");
 const imagekit = require("../Utils/imagekit");
