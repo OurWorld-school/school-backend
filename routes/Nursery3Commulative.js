@@ -224,7 +224,7 @@ router.post("/", async (req, res) => {
 });
 router.get("/", async (req, res) => {
   try {
-    const nursery3results = await Nusery3Commulative.find({})
+    const nursery3results = await Nursery3Commulative.find({})
       .sort({ createdAt: -1 })
       .populate("user", [
         "firstName",
@@ -240,7 +240,7 @@ router.get("/", async (req, res) => {
 });
 router.get("/:id", async (req, res) => {
   try {
-    const nursery3result = await Nusery3Commulative.findById(
+    const nursery3result = await Nursery3Commulative.findById(
       req.params.id
     ).populate("user", [
       "firstName",
@@ -255,7 +255,7 @@ router.get("/:id", async (req, res) => {
 });
 router.get("/get:id", async (req, res) => {
   try {
-    const nursery3result = await Nusery3Commulative.findById(
+    const nursery3result = await Nursery3Commulative.findById(
       req.params.id
     ).populate("user", [
       "firstName",
@@ -273,7 +273,7 @@ router.get("/results/:user/:year/:term/", async (req, res) => {
     const { user, year, term } = req.params;
 
     // Use the parameters to query the database
-    const nursery3result = await Nusery3Commulative.findOne({
+    const nursery3result = await Nursery3Commulative.findOne({
       user,
       year,
 
@@ -301,7 +301,7 @@ router.put("/updateResultPosition/:id", async (req, res) => {
   const { Position } = req.body;
 
   try {
-    const prenurseryresult = await Nusery3Commulative.findById(id);
+    const prenurseryresult = await Nursery3Commulative.findById(id);
 
     if (!prenurseryresult) {
       return res.status(404).json({ message: "Result not found" });
@@ -492,7 +492,7 @@ router.put("/update/:id", async (req, res) => {
     remark: item.remark,
   }));
   try {
-    const prenurseryresult = await Nusery3Commulative.findById(id);
+    const prenurseryresult = await Nursery3Commulative.findById(id);
 
     if (!prenurseryresult) {
       return res.status(404).json({ message: "Result not found" });
@@ -560,7 +560,7 @@ router.put("/deactivateResultEdit", async (req, res) => {
     const { classes, year, term } = req.body;
 
     // Update all records that match the criteria
-    const result = await Nusery3Commulative.updateMany(
+    const result = await Nursery3Commulative.updateMany(
       { classes, year, term },
       { $set: { deActivateResultEdith: true } }
     );
@@ -576,7 +576,7 @@ router.get("/:year/:term/", async (req, res) => {
     const { year, term } = req.params;
 
     // Use the parameters to query the database
-    const basic5result = await Nusery3Commulative.findOne({
+    const basic5result = await Nursery3Commulative.findOne({
       year,
 
       term,

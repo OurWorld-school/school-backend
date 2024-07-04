@@ -117,7 +117,7 @@ router.post("/", async (req, res) => {
   // const grandTotal = English.totalScore + Mathematics.totalScore;
 
   try {
-    const ResultAlreadyExits = await Nusery1Commulative.findOne({
+    const ResultAlreadyExits = await Nursery1Commulative.findOne({
       year,
       term,
       classes,
@@ -130,7 +130,7 @@ router.post("/", async (req, res) => {
     }
 
     // Create a new result document in the database with the Biology array containing total scores
-    const newResult = new Nusery1Commulative({
+    const newResult = new Nursery1Commulative({
       English: EnglishresultsWithTotal,
       Mathematics: MathsresultsWithTotal,
       BasicScience: BasicScienceresultsWithTotal,
@@ -184,7 +184,7 @@ router.get("/", async (req, res) => {
 });
 router.get("/:id", async (req, res) => {
   try {
-    const nursery1result = await Nusery1Commulative.findById(
+    const nursery1result = await Nursery1Commulative.findById(
       req.params.id
     ).populate("user", [
       "firstName",
@@ -202,7 +202,7 @@ router.get("/results/:user/:year/:term/", async (req, res) => {
     const { user, year, term } = req.params;
 
     // Use the parameters to query the database
-    const nursery1result = await Nusery1Commulative.findOne({
+    const nursery1result = await Nursery1Commulative.findOne({
       user,
       year,
 
@@ -230,7 +230,7 @@ router.put("/updateResultPosition/:id", async (req, res) => {
   const { Position } = req.body;
 
   try {
-    const prenurseryresult = await Nusery1Commulative.findById(id);
+    const prenurseryresult = await Nursery1Commulative.findById(id);
 
     if (!prenurseryresult) {
       return res.status(404).json({ message: "Result not found" });
@@ -356,7 +356,7 @@ router.put("/update/:id", async (req, res) => {
     remark: item.remark,
   }));
   try {
-    const prenurseryresult = await Nusery1Commulative.findById(id);
+    const prenurseryresult = await Nursery1Commulative.findById(id);
 
     if (!prenurseryresult) {
       return res.status(404).json({ message: "Result not found" });
@@ -413,7 +413,7 @@ router.put("/deactivateResultEdit", async (req, res) => {
     const { classes, year, term } = req.body;
 
     // Update all records that match the criteria
-    const result = await Nusery1Commulative.updateMany(
+    const result = await Nursery1Commulative.updateMany(
       { classes, year, term },
       { $set: { deActivateResultEdith: true } }
     );
@@ -429,7 +429,7 @@ router.get("/:year/:term/", async (req, res) => {
     const { year, term } = req.params;
 
     // Use the parameters to query the database
-    const basic5result = await Nusery1Commulative.findOne({
+    const basic5result = await Nursery1Commulative.findOne({
       year,
 
       term,
