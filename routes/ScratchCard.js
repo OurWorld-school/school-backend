@@ -1,5 +1,5 @@
 const ResultScratchCard = require("../models/ResultScratchCard");
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 const router = require("express").Router();
 router.post("/", async (req, res) => {
   try {

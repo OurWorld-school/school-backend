@@ -1,5 +1,5 @@
 const ResultScratchCard = require("../models/ResultScratchCard");
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 const Scratchcard = require("../models/ScratchCrad");
 const getRandom = require("../Utils/RandomNumbers");
 const router = require("express").Router();
