@@ -1,6 +1,6 @@
 const router = require("express").Router();
 const User = require("../models/User");
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 router.get("/", async (req, res) => {
   try {
     const users = await User.find({}).sort({ createdAt: -1 });

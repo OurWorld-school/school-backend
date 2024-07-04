@@ -181,7 +181,7 @@ router.post("/", async (req, res) => {
     }
 
     // Create a new result document in the database with the Biology array containing total scores
-    const newResult = new Nusery3Commulative({
+    const newResult = new Nursery3Commulative({
       English: EnglishresultsWithTotal,
       Mathematics: MathsresultsWithTotal,
       BasicScience: BasicScienceresultsWithTotal,
