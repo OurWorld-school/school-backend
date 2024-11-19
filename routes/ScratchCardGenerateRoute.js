@@ -58,7 +58,8 @@ router.post("/scratchcard-login", async (req, res) => {
 });
 router.get("/", async (req, res) => {
   try {
-    const scratchcard = await Scratchcard.find({}).sort({ createdAt: -1 });
+    const scratchcard = await Scratchcard.find({});
+    // .sort({ createdAt: -1 });
     res.json(scratchcard);
   } catch (error) {
     res.status(500).json(error);
