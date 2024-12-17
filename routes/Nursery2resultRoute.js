@@ -93,13 +93,13 @@ router.post("/", async (req, res) => {
     grade: item.grade,
     remark: item.remark,
   }));
-  const FrenchresultsWithTotal = French.map((item) => ({
-    test: item.test,
-    exam: item.exam,
-    totalScore: item.totalScore,
-    grade: item.grade,
-    remark: item.remark,
-  }));
+  // const FrenchresultsWithTotal = French.map((item) => ({
+  //   test: item.test,
+  //   exam: item.exam,
+  //   totalScore: item.totalScore,
+  //   grade: item.grade,
+  //   remark: item.remark,
+  // }));
 
   const CreativeArtresultsWithTotal = CreativeArt.map((item) => ({
     test: item.test,
@@ -150,7 +150,7 @@ router.post("/", async (req, res) => {
       CreativeArt: CreativeArtresultsWithTotal,
       Phonics: PhonicsresultsWithTotal,
       Igbo: IgboresultsWithTotal,
-      French: FrenchresultsWithTotal,
+      // French: FrenchresultsWithTotal,
       Computer: ComputerresultsWithTotal,
 
       user: userId,
