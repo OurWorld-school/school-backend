@@ -220,18 +220,90 @@ router.post("/logins", async (req, res) => {
 ///////
 router.post("/student-login", async (req, res) => {
   try {
+    const user = await User.findOne({
+      schoolRegNumber: req.body.schoolRegNumber,
+    });
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    const isMatch = await bcrypt.compare(req.body.password, user.password);
+    if (!isMatch) {
+      return res.status(400).json({ message: "Invalid credentials" });
+    }
+
+    // const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
+    res
+      .status(200)
+      .json({
+        _id: user._id,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        roles: user.roles,
+        user: user.userType,
+        phoneNumber: user.phoneNumber,
+        passportPhoto: user.passportPhoto,
+        contactAdress: user.contactAdress,
+        isAdmin: user.isAdmin,
+        schoolRegNumber: user.schoolRegNumber,
+        currentClass: user.currentClass,
+      });
+  } catch (err) {
+    res.status(500).json({ message: "Server error" });
+  }
+});
+
+router.post("/std/login", async (req, res) => {
+  try {
+    const user = await User.findOne({
+      schoolRegNumber: req.body.schoolRegNumber,
+    });
+    !user && res.status(404).json("user not found");
+
+    const validPassword = await bcrypt.compare(
+      req.body.password,
+      user.password
+    );
+    !validPassword && res.status(400).json("wrong password");
+
+    res.status(200).json({
+      // token: generateToken(user._id),
+      _id: user._id,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      roles: user.roles,
+      user: user.userType,
+      phoneNumber: user.phoneNumber,
+      passportPhoto: user.passportPhoto,
+      contactAdress: user.contactAdress,
+      isAdmin: user.isAdmin,
+      schoolRegNumber: user.schoolRegNumber,
+      currentClass: user.currentClass,
+    });
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+router.post("/student-loginyu", async (req, res) => {
+  try {
     const { schoolRegNumber, password } = req.body;
     const user = await User.findOne({ schoolRegNumber });
 
     if (!user) {
-      return res.status(401).send("Invalid credentials");
+      return res.status(401).send("User Not Found");
     }
 
-    const isPasswordMatch = await bcrypt.compare(password, user.password);
-
-    if (!isPasswordMatch) {
-      return res.status(401).send("Invalid credentials");
-    }
+    // const isPasswordMatch = await bcrypt.compare(password, user.password);
+    // const isPasswordMatch =
+    //   user && (await bcrypt.compare(password, user.password));
+    const validPassword = await bcrypt.compare(
+      req.body.password,
+      user.password
+    );
+    !validPassword && res.status(400).json("wrong password");
+    // if (!isPasswordMatch) {
+    //   return res.status(401).send("Password doesnt match");
+    // }
 
     // Set up a session or JWT token here if needed
 

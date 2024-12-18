@@ -348,13 +348,13 @@ router.put("/update/:id", async (req, res) => {
     grade: item.grade,
     remark: item.remark,
   }));
-  const WritingresultsWithTotal = Writing.map((item) => ({
-    test: item.test,
-    exam: item.exam,
-    totalScore: item.totalScore,
-    grade: item.grade,
-    remark: item.remark,
-  }));
+  // const WritingresultsWithTotal = Hand.map((item) => ({
+  //   test: item.test,
+  //   exam: item.exam,
+  //   totalScore: item.totalScore,
+  //   grade: item.grade,
+  //   remark: item.remark,
+  // }));
   const PhonicsresultsWithTotal = Phonics.map((item) => ({
     test: item.test,
     exam: item.exam,
@@ -445,8 +445,8 @@ router.put("/update/:id", async (req, res) => {
     prenurseryresult.Igbo = IgboresultsWithTotal || prenurseryresult.Igbo;
     prenurseryresult.NationalValues =
       NationalValuesresultsWithTotal || prenurseryresult.NationalValues;
-    prenurseryresult.Writing =
-      WritingresultsWithTotal || prenurseryresult.Writing;
+    // prenurseryresult.Writing =
+    //   WritingresultsWithTotal || prenurseryresult.Writing;
     prenurseryresult.HandWriting =
       HandWritingresultsWithTotal || prenurseryresult.HandWriting;
     prenurseryresult.classes = classes || prenurseryresult.classes;

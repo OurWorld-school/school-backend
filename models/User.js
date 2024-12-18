@@ -108,6 +108,18 @@ const UserSchema = new mongoose.Schema(
 
   { timestamps: true }
 );
+// UserSchema.pre("save", async function (next) {
+//   if (!this.isModified("password")) return next(); // Prevent re-hashing
+//   try {
+//     const salt = await bcrypt.genSalt(10);
+//     const hashedPassword = await bcrypt.hash(this.password, salt);
+//     this.password = hashedPassword;
+//     next();
+//   } catch (error) {
+//     next(error);
+//   }
+// });
+
 UserSchema.pre("save", async function (next) {
   try {
     const salt = await bcrypt.genSalt(10);
