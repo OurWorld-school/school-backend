@@ -8,10 +8,14 @@ const imagekit = require("../Utils/imagekit");
 // /registerin
 router.post("/registers", async (req, res) => {
   try {
-    // const userExist = await User.findOne({
-    //   schoolRegNumber: req.body.schoolRegNumber,
-    // });
-    // userExist && res.status(404).json("user already exist");
+    const existingUser = await User.findOne({ schoolRegNumber });
+
+    if (existingUser) {
+      return res
+        .status(409)
+        .json({ error: "User already exists with this school reg number" });
+    }
+
     const result = await imagekit.upload({
       file: req.body.passportPhoto,
       fileName: `${req.body.firstName}-${req.body.lastName}.jpg`,
@@ -67,11 +71,13 @@ router.post("/register", async (req, res) => {
     //generate new password
     // const salt = await bcrypt.genSalt(10);
     // const hashedPassword = await bcrypt.hash(req.body.password, salt);
-    // const existingUser = await User.findOne({ email });
+    const existingUser = await User.findOne({ schoolRegNumber });
 
-    // if (existingUser) {
-    //   return res.status(409).json({ error: "User already exists." });
-    // }
+    if (existingUser) {
+      return res
+        .status(409)
+        .json({ error: "User already exists with this school reg number" });
+    }
     //create new user
     const result = await imagekit.upload({
       file: req.body.passportPhoto,
@@ -233,21 +239,19 @@ router.post("/student-login", async (req, res) => {
     }
 
     // const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
-    res
-      .status(200)
-      .json({
-        _id: user._id,
-        firstName: user.firstName,
-        lastName: user.lastName,
-        roles: user.roles,
-        user: user.userType,
-        phoneNumber: user.phoneNumber,
-        passportPhoto: user.passportPhoto,
-        contactAdress: user.contactAdress,
-        isAdmin: user.isAdmin,
-        schoolRegNumber: user.schoolRegNumber,
-        currentClass: user.currentClass,
-      });
+    res.status(200).json({
+      _id: user._id,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      roles: user.roles,
+      user: user.userType,
+      phoneNumber: user.phoneNumber,
+      passportPhoto: user.passportPhoto,
+      contactAdress: user.contactAdress,
+      isAdmin: user.isAdmin,
+      schoolRegNumber: user.schoolRegNumber,
+      currentClass: user.currentClass,
+    });
   } catch (err) {
     res.status(500).json({ message: "Server error" });
   }
