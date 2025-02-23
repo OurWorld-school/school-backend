@@ -185,7 +185,6 @@ router.get("/results/:user/:year/:term/", async (req, res) => {
     const nursery1result = await Nursery1result.findOne({
       user,
       year,
-
       term,
     }).populate("user", [
       "firstName",
