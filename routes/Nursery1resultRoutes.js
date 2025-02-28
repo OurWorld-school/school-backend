@@ -225,8 +225,82 @@ router.put("/updateResultPosition/:id", async (req, res) => {
     res.status(500).json({ message: "Failed to update" });
   }
 });
-
 router.put("/update/:id", async (req, res) => {
+  const { id } = req.params;
+  const {
+    English,
+    Mathematics,
+    SocialHabit,
+    HealthScience,
+    BasicScience,
+    AgricScience,
+    Rhymes,
+    CreativeArt,
+    Phonics,
+  } = req.body;
+
+  try {
+    const result = await Nursery1result.findById(id);
+
+    if (!result) {
+      return res.status(404).json({ message: "Result not found" });
+    }
+
+    // Helper function to update subject scores
+    const updateSubject = (subjectData, subjectName) => {
+      if (subjectData) {
+        result[subjectName] = subjectData.map((item) => ({
+          test: item.test,
+          exam: item.exam,
+          totalScore: item.test + item.exam, // Automatically calculate totalScore
+          grade: item.grade || "",
+          remark: item.remark || "",
+        }));
+      }
+    };
+
+    // Update subjects
+    updateSubject(English, "English");
+    updateSubject(Mathematics, "Mathematics");
+    updateSubject(SocialHabit, "SocialHabit");
+    updateSubject(CRK, "CRK");
+    updateSubject(AgricScience, "AgricScience");
+    updateSubject(HealthScience, " HealthScience");
+    updateSubject(BasicScience, "BasicScience");
+    updateSubject(Phonics, "Phonics");
+    updateSubject(Rhymes, "Rhymes");
+
+    updateSubject(PVC, "PVC");
+    updateSubject(CreativeArt, "CreativeArt");
+
+    // Recalculate TotalScore (sum of totalScores for all subjects)
+    let totalScore = 0;
+    let subjectCount = 0;
+
+    Object.keys(result.toObject()).forEach((key) => {
+      if (Array.isArray(result[key])) {
+        result[key].forEach((item) => {
+          if (item.totalScore) {
+            totalScore += item.totalScore;
+            subjectCount++;
+          }
+        });
+      }
+    });
+
+    result.TotalScore = totalScore;
+    result.TotalAverage =
+      subjectCount > 0 ? (totalScore / subjectCount).toFixed(2) : "0";
+
+    await result.save();
+
+    res.json({ message: "Result updated successfully", result });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Failed to update result" });
+  }
+});
+router.put("/updated/:id", async (req, res) => {
   const { id } = req.params;
   const {
     English,

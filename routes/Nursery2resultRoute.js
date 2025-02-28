@@ -239,6 +239,89 @@ router.get("/results/:user/:year/:term/", async (req, res) => {
 });
 router.put("/update/:id", async (req, res) => {
   const { id } = req.params;
+  const {
+    English,
+    Mathematics,
+    SocialStudies,
+    CRK,
+    VerbalReasoning,
+    QuantitativeReasoning,
+    BasicScience,
+    Phonics,
+    French,
+    Writing,
+    Computer,
+
+    CreativeArt,
+    Igbo,
+  } = req.body;
+
+  try {
+    const result = await Nursery2result.findById(id);
+
+    if (!result) {
+      return res.status(404).json({ message: "Result not found" });
+    }
+
+    // Helper function to update subject scores
+    const updateSubject = (subjectData, subjectName) => {
+      if (subjectData) {
+        result[subjectName] = subjectData.map((item) => ({
+          test: item.test,
+          exam: item.exam,
+          totalScore: item.test + item.exam, // Automatically calculate totalScore
+          grade: item.grade || "",
+          remark: item.remark || "",
+        }));
+      }
+    };
+
+    // Update subjects
+    updateSubject(English, "English");
+    updateSubject(Mathematics, "Mathematics");
+
+    updateSubject(CRK, "CRK");
+    updateSubject(VerbalReasoning, "VerbalReasoning");
+    updateSubject(QuantitativeReasoning, "QuantitativeReasoning");
+    updateSubject(BasicScience, "BasicScience");
+    updateSubject(Phonics, "Phonics");
+    updateSubject(French, "French");
+    updateSubject(Computer, "Computer");
+    updateSubject(SocialStudies, "SocialStudies");
+    updateSubject(PVC, "PVC");
+    updateSubject(CreativeArt, "CreativeArt");
+    updateSubject(Writing, "Writing");
+    updateSubject(Igbo, "Igbo");
+
+    // Recalculate TotalScore (sum of totalScores for all subjects)
+    let totalScore = 0;
+    let subjectCount = 0;
+
+    Object.keys(result.toObject()).forEach((key) => {
+      if (Array.isArray(result[key])) {
+        result[key].forEach((item) => {
+          if (item.totalScore) {
+            totalScore += item.totalScore;
+            subjectCount++;
+          }
+        });
+      }
+    });
+
+    result.TotalScore = totalScore;
+    result.TotalAverage =
+      subjectCount > 0 ? (totalScore / subjectCount).toFixed(2) : "0";
+
+    await result.save();
+
+    res.json({ message: "Result updated successfully", result });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Failed to update result" });
+  }
+});
+router.put("/updated/:id", async (req, res) => {
+  const { id } = req.params;
 
   const {
     English,
