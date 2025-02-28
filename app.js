@@ -5,6 +5,7 @@ const colors = require("colors");
 const cors = require("cors");
 const compression = require("compression");
 const dotenv = require("dotenv");
+const classRoutes = require("./routes/ClassRoutes");
 const authRoutes = require("./routes/authRoutes");
 const userRoute = require("./routes/UserRoutes");
 const scratchcardRoute = require("./routes/ScratchCard");
@@ -83,6 +84,7 @@ mongoose
   .catch((err) => console.log(err));
 /////
 app.use(express.json());
+app.use("/api/Class", classRoutes);
 app.use("/api/auth/", authRoutes);
 app.use("/api/users", userRoute);
 app.use("/api/nursery1result", nursery1Route);
