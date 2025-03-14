@@ -50,6 +50,7 @@ router.put("/update/:id", async (req, res) => {
     user.contactAdress = req.body.contactAdress || user.contactAdress;
     user.password = hash;
     await user.save();
+    res.json({ message: "Profile updated successfully" });
   } catch (err) {
     res.status(500).json({ err: "Failed to update" });
   }
