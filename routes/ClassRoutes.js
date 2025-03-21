@@ -7,7 +7,7 @@ const router = require("express").Router();
 router.post("/", async (req, res) => {
   const { name } = req.body;
 
-  const modifyName = name.replace(/\s+/g, "_");
+  const modifyName = name.replace(/\s+/g, "-");
   try {
     const existingClass = await Class.findOne({ name });
 
