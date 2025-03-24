@@ -7,6 +7,7 @@ const imagekit = require("../Utils/imagekit");
 
 // /registerin
 router.post("/registers", async (req, res) => {
+  const { schoolRegNumber } = req.body;
   try {
     const existingUser = await User.findOne({ schoolRegNumber });
 
@@ -65,6 +66,7 @@ const transporter = nodemailer.createTransport({
   },
 });
 router.post("/register", async (req, res) => {
+  const { schoolRegNumber } = req.body;
   //  const {class}=req.body;
   //   const modifyClass = class.replace(/\s+/g, "_");
   try {
