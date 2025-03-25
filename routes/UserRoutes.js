@@ -32,13 +32,18 @@ router.delete("/delete/:id", async (req, res) => {
 router.put("/update/:id", async (req, res) => {
   const { password } = req.body;
   try {
-    const salt = await bcrypt.genSalt(10);
-    const hash = await bcrypt.hash(password, salt);
+    // const salt = await bcrypt.genSalt(10);
+    // const hash = await bcrypt.hash(password, salt);
     const user = await User.findById(req.params.id);
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
-
+    console.log(user);
+    if (password) {
+      const salt = await bcrypt.genSalt(10);
+      const hash = await bcrypt.hash(password, salt);
+      user.password = hash | user.password;
+    }
     user.firstName = req.body.firstName || user.firstName;
     user.lastName = req.body.lastName || user.lastName;
     user.currentClass = req.body.currentClass || user.currentClass;
@@ -48,7 +53,7 @@ router.put("/update/:id", async (req, res) => {
     user.schoolRegNumber = req.body.schoolRegNumber || user.schoolRegNumber;
     user.phoneNumber = req.body.phoneNumber || user.phoneNumber;
     user.contactAdress = req.body.contactAdress || user.contactAdress;
-    user.password = hash || user.password;
+    // user.password = hash || user.password;
     await user.save();
     res.json({ message: "Profile updated successfully" });
   } catch (err) {
