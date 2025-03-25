@@ -48,7 +48,7 @@ router.put("/update/:id", async (req, res) => {
     user.schoolRegNumber = req.body.schoolRegNumber || user.schoolRegNumber;
     user.phoneNumber = req.body.phoneNumber || user.phoneNumber;
     user.contactAdress = req.body.contactAdress || user.contactAdress;
-    user.password = hash;
+    user.password = hash || user.password;
     await user.save();
     res.json({ message: "Profile updated successfully" });
   } catch (err) {
