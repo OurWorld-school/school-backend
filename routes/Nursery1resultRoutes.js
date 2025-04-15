@@ -265,7 +265,7 @@ router.put("/update/:id", async (req, res) => {
     updateSubject(SocialHabit, "SocialHabit");
     updateSubject(CRK, "CRK");
     updateSubject(AgricScience, "AgricScience");
-    updateSubject(HealthScience, " HealthScience");
+    updateSubject(HealthScience, "HealthScience");
     updateSubject(BasicScience, "BasicScience");
     updateSubject(Phonics, "Phonics");
     updateSubject(Rhymes, "Rhymes");

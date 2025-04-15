@@ -251,7 +251,6 @@ router.put("/update/:id", async (req, res) => {
     French,
     Writing,
     Computer,
-
     CreativeArt,
     Igbo,
   } = req.body;

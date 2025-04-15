@@ -293,7 +293,7 @@ router.put("/update/:id", async (req, res) => {
   } = req.body;
 
   try {
-    const result = await Basic1result.findById(id);
+    const result = await Basic3result.findById(id);
 
     if (!result) {
       return res.status(404).json({ message: "Result not found" });
