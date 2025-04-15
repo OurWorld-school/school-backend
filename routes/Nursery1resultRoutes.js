@@ -237,6 +237,8 @@ router.put("/update/:id", async (req, res) => {
     Rhymes,
     CreativeArt,
     Phonics,
+    CRK,
+    PVC,
   } = req.body;
 
   try {

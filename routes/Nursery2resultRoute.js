@@ -253,6 +253,7 @@ router.put("/update/:id", async (req, res) => {
     Computer,
     CreativeArt,
     Igbo,
+    PVC,
   } = req.body;
 
   try {

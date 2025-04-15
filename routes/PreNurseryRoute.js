@@ -247,14 +247,14 @@ router.put("/update/:id", async (req, res) => {
     updateSubject(Numeracy, "Numeracy");
     updateSubject(Literacy, "Literacy");
     updateSubject(Colouring, "Colouring");
-    updateSubject(CRK, "CRK");
+    // updateSubject(CRK, "CRK");
     updateSubject(HealthHabit, "HealthHabit");
     updateSubject(PreScience, "PreScience");
     updateSubject(PracticalLife, "PracticalLife");
     updateSubject(Rhymes, "Rhymes");
     updateSubject(SensorialActivity, " SensorialActivity");
 
-    updateSubject(PVC, "PVC");
+    // updateSubject(PVC, "PVC");
 
     // Recalculate TotalScore (sum of totalScores for all subjects)
     let totalScore = 0;
