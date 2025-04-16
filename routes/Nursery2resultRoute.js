@@ -561,4 +561,40 @@ router.get("/:year/:term/", async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 });
+router.put("/update/otherFields/:id", async (req, res) => {
+  const { id } = req.params;
+
+  const { year, term, classes } = req.body; // Assuming the request body contains the Biology data as an array of test and exam objects
+
+  // const modifyClass = class.replace(/\s+/g, "-");
+  // Calculate the total score for each entry in the Biology array
+
+  try {
+    const prenurseryresult = await Nursery2result.findById(id);
+
+    if (!prenurseryresult) {
+      return res.status(404).json({ message: "Result not found" });
+    }
+
+    // Update the user's current class
+
+    prenurseryresult.classes = classes || prenurseryresult.classes;
+    prenurseryresult.year = year || prenurseryresult.year;
+    prenurseryresult.term = term || prenurseryresult.term;
+    prenurseryresult.schoolRegNumber =
+      req.body.schoolRegNumber || prenurseryresult.schoolRegNumber;
+
+    prenurseryresult.numberInClass =
+      req.body.numberInClass || prenurseryresult.numberInClass;
+    prenurseryresult.Remark = req.body.Remark || prenurseryresult.Remark;
+    prenurseryresult.HmRemark = req.body.HmRemark || prenurseryresult.HmRemark;
+
+    await prenurseryresult.save();
+
+    res.json({ message: "Result updated successfully" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Failed to update" });
+  }
+});
 module.exports = router;
