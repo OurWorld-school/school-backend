@@ -1,5 +1,6 @@
 const Class = require("../models/Class");
 const School = require("../models/School");
+const Subjects = require("../models/Subjects");
 
 const router = require("express").Router();
 
@@ -7,29 +8,35 @@ const router = require("express").Router();
 
 router.post("/", async (req, res) => {
   const { name } = req.body;
+  const classId = req.body.classes;
   const schoolId = req.body.schoolName;
   const modifyName = name.replace(/\s+/g, "_");
   try {
-    const existingClass = await Class.findOne({ name, schoolName: schoolId });
+    const existingSubject = await Subjects.findOne({
+      name,
+      classes: classId,
+      schoolName: schoolId,
+    });
 
-    if (existingClass) {
-      return res
-        .status(409)
-        .json({ error: "Class already exists from this particular School." });
+    if (existingSubject) {
+      return res.status(409).json({ error: "Class Subject already exists." });
     }
     //create new user
 
-    const newClass = new Class({
+    const newSubject = new Subjects({
       name: modifyName,
+      classes: req.body.classes,
       schoolName: req.body.schoolName,
     });
 
-    const classes = await newClass.save();
+    const subjects = await newSubject.save();
 
     res.status(200).json({
-      _id: classes._id,
-      schoolName: classes.schoolName,
-      name: classes.name,
+      _id: subjects._id,
+
+      name: subjects.name,
+      classes: subjects.classes,
+      schoolName: subjects.schoolName,
     });
   } catch (err) {
     res.status(500).json(err);
@@ -37,33 +44,33 @@ router.post("/", async (req, res) => {
 });
 router.get("/", async (req, res) => {
   try {
-    const classes = await Class.find({})
+    const subjects = await Subjects.find({})
       .sort({ createdAt: -1 })
+      .populate("classes", ["name"])
       .populate("schoolName", ["name"]);
-    res.json(classes);
+    res.json(subjects);
   } catch (err) {
     res.status(500).json(err);
   }
 });
 router.get("/:id", async (req, res) => {
   try {
-    const classes = await Class.findById(req.params.id).populate("schoolName", [
-      "name",
-    ]);
+    const subjects = await Subjects.findById(req.params.id)
+      .populate("classes", ["name"])
+      .populate("schoolName", ["name"]);
 
-    res.status(200).json(classes);
+    res.status(200).json(subjects);
   } catch (err) {
     res.status(500).json(err);
   }
 });
-
 router.delete("/delete/:id", async (req, res) => {
   try {
-    const classes = await Class.findByIdAndDelete(req.params.id);
-    if (classes) {
-      res.status(200).json({ message: "This Class has been deleted" });
+    const subject = await Subjects.findByIdAndDelete(req.params.id);
+    if (subject) {
+      res.status(200).json({ message: "This Class Subject has been deleted" });
     } else {
-      res.status(404).json({ message: "Class not found" });
+      res.status(404).json({ message: "Class Subject not found" });
     }
   } catch (error) {
     res.status(500).json(error);
@@ -85,11 +92,11 @@ router.delete("/delete/:id/:schoolId", async (req, res) => {
         .status(403)
         .json({ message: "Only a school director can make this request" });
     }
-    const classes = await Class.findByIdAndDelete(req.params.id);
+    const classes = await Subjects.findByIdAndDelete(req.params.id);
     if (classes) {
-      res.status(200).json({ message: "This Class has been deleted" });
+      res.status(200).json({ message: "This Subject has been deleted" });
     } else {
-      res.status(404).json({ message: "Class not found" });
+      res.status(404).json({ message: "Subject not found" });
     }
   } catch (error) {
     res.status(500).json(error);
@@ -97,19 +104,20 @@ router.delete("/delete/:id/:schoolId", async (req, res) => {
 });
 router.put("/update/:id", async (req, res) => {
   const { id } = req.params;
-  const { name } = req.body;
+  const { classes, name } = req.body;
   try {
-    const classes = await Class.findById(id);
+    const subjects = await Subjects.findById(id);
 
-    if (!classes) {
-      return res.status(404).json({ message: "Class not found" });
+    if (!subjects) {
+      return res.status(404).json({ message: "Class Subject not found" });
     }
 
     // Update the user's current class
-    classes.name = name || classes.name;
-    await classes.save();
+    subjects.name = name || subjects.name;
+    subjects.classes = classes || subjects.classes;
+    await subjects.save();
 
-    res.json({ message: "Class updated successfully" });
+    res.json({ message: "Class Subject updated successfully" });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Internal Server Error" });

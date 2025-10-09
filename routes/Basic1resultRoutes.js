@@ -6,6 +6,65 @@ const User = require("../models/User");
 
 const router = require("express").Router();
 router.post("/", async (req, res) => {
+  const {
+    user,
+    classes,
+    year,
+    term,
+    schoolRegNumber,
+    subjects, // array of { subject, test, exam, totalScore, grade, remark }
+    TotalScore,
+    TotalAverage,
+    Position,
+    numberInClass,
+    TotalGrade,
+    Remark,
+    HmRemark,
+    Signature,
+  } = req.body;
+
+  try {
+    const existing = await Basic1result.findOne({
+      user,
+      year,
+      term,
+      classes,
+    });
+
+    if (existing) {
+      return res.status(400).json({ message: "Result already exists for this user, class, term, and year." });
+    }
+
+    const newResult = new Basic1result({
+      user,
+      classes,
+      year,
+      term,
+      schoolRegNumber,
+      subjects,
+      TotalScore,
+      TotalAverage,
+      Position,
+      numberInClass,
+      TotalGrade,
+      Remark,
+      HmRemark,
+      Signature,
+    });
+
+    await newResult.save();
+
+    await User.findByIdAndUpdate(user, {
+      $push: { basic1result: newResult._id },
+    });
+
+    res.status(201).json(newResult);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Failed to save the result." });
+  }
+});
+router.post("/post", async (req, res) => {
   const userId = req.body.user;
   const {
     English,
@@ -271,6 +330,49 @@ router.put("/updateResultPosition/:id", async (req, res) => {
   }
 });
 router.put("/update/:id", async (req, res) => {
+  const { id } = req.params;
+  const updateData = req.body;
+
+  try {
+    const existing = await Basic1result.findById(id);
+    if (!existing) {
+      return res.status(404).json({ message: "Result not found." });
+    }
+
+    // If 'subjects' is included, update and recalculate TotalScore and TotalAverage
+    if (Array.isArray(updateData.subjects)) {
+      let totalScore = 0;
+      let subjectCount = 0;
+
+      updateData.subjects.forEach((item) => {
+        const score = Number(item.totalScore);
+        if (!isNaN(score)) {
+          totalScore += score;
+          subjectCount++;
+        }
+      });
+
+      updateData.TotalScore = totalScore;
+      updateData.TotalAverage = subjectCount > 0 ? (totalScore / subjectCount).toFixed(2) : "0";
+    }
+
+    // Loop through each field in updateData and assign it to the existing doc
+    Object.keys(updateData).forEach((key) => {
+      existing[key] = updateData[key];
+    });
+
+    const updated = await existing.save();
+
+    return res.status(200).json(updated);
+  } catch (error) {
+    console.error("Update error:", error);
+    return res.status(500).json({ error: "Failed to update the result." });
+  }
+});
+
+
+
+router.put("/update/:id/old", async (req, res) => {
   const { id } = req.params;
   const {
     English,

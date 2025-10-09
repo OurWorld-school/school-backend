@@ -5,7 +5,7 @@ const colors = require("colors");
 const cors = require("cors");
 const compression = require("compression");
 const dotenv = require("dotenv");
-const classRoutes = require("./routes/ClassRoutes");
+
 const authRoutes = require("./routes/authRoutes");
 const userRoute = require("./routes/UserRoutes");
 const scratchcardRoute = require("./routes/ScratchCard");
@@ -30,6 +30,27 @@ const basic4CommulativeRoute = require("./routes/Basic4Commulative");
 const basic5CommulativeRoute = require("./routes/Basic5Commulative");
 const basic6CommulativeRoute = require("./routes/Basic6Commulative");
 const scratchcGenRoute = require("./routes/ScratchCardGenerateRoute");
+const authSchoolRoutes = require("./routes/AuthSchoolRoutes");
+const schoolRoutes = require("./routes/SchoolRoutes");
+const classRoutes = require("./routes/ClassRoutes");
+
+/////
+
+const subjectRoutes = require("./routes/SubjectRoutes");
+const resultRoutes = require("./routes/ResultRoutes");
+
+const gradeMarksRoutes = require("./routes/GradeMarksRoutes");
+const subjectMarksRoutes = require("./routes/SubjectMarksRoutes");
+const subjectGradeRoutes = require("./routes/SubjectGrade");
+// const scratchCardRoutes = require("./routes/ScratchCardRoutes");
+const commutativeRoutes = require("./routes/CommutativeRoutes");
+// const productMarketerRoutes = require("./routes/ProductMarketer");
+// const NoScratchCardRoutes = require("./routes/NoScratchCardSell");
+// const teacherRoleRoutes = require("./routes/TeacherRoutes");
+const directorsGradeRoutes = require("./routes/DirectorsRemark");
+// const staffRoutes = require("./routes/StaffUsersRoutes");
+// const scratchCardPaymentRoutes = require("./routes/ScratchCardPayment");
+//////
 
 const mongoose = require("mongoose");
 const path = require("path");
@@ -84,7 +105,11 @@ mongoose
   .catch((err) => console.log(err));
 /////
 app.use(express.json());
+app.use("/api/AuthSchool", authSchoolRoutes);
+app.use("/api/School", schoolRoutes);
 app.use("/api/Class", classRoutes);
+// app.use("/api/Class", classRoutes);
+app.use("/api/Subjects", subjectRoutes);
 app.use("/api/auth/", authRoutes);
 app.use("/api/users", userRoute);
 app.use("/api/nursery1result", nursery1Route);
@@ -109,6 +134,22 @@ app.use("/api/basic5Commulative", basic5CommulativeRoute);
 app.use("/api/basic6Commulative", basic6CommulativeRoute);
 app.use("/api/scratchcard", scratchcardRoute);
 app.use("/api/scratchGenerate", scratchcGenRoute);
+
+/////
+app.use("/api/Subjects", subjectRoutes);
+
+app.use("/api/SubjectMarks", subjectMarksRoutes);
+app.use("/api/Results", resultRoutes);
+// app.use("/api/Role", teacherRoleRoutes);
+app.use("/api/Grade", gradeMarksRoutes);
+app.use("/api/Ranks", subjectGradeRoutes);
+// app.use("/api/ScratchCard", scratchCardRoutes);
+app.use("/api/Commutative", commutativeRoutes);
+// app.use("/api/ProductMarketer", productMarketerRoutes);
+app.use("/api/DirectorsGrade", directorsGradeRoutes);
+// app.use("/api/NoScratchCard", NoScratchCardRoutes);
+// app.use("/api/ScratchCardPayment", scratchCardPaymentRoutes);
+/////
 app.use(express.static(path.join(__dirname, "/build")));
 app.get("*", (req, res) =>
   res.sendFile(path.join(__dirname, "build/index.html"))

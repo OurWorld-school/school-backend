@@ -29,6 +29,7 @@ router.post("/registers", async (req, res) => {
       userType: req.body.userType,
       currentClass: req.body.currentClass,
       roles: req.body.roles,
+      schoolName: req.body.schoolName,
       schoolRegNumber: req.body.schoolRegNumber,
       phoneNumber: req.body.phoneNumber,
       passportPhoto: result.url,
@@ -52,6 +53,7 @@ router.post("/registers", async (req, res) => {
       contactAdress: user.contactAdress,
       isAdmin: user.isAdmin,
       schoolRegNumber: user.schoolRegNumber,
+      schoolName: user.schoolName,
     });
   } catch (err) {
     res.status(500).json(err);

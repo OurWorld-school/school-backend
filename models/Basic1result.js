@@ -1,5 +1,17 @@
-// resultModel.js
+// models/basic1result.model.js
 const mongoose = require("mongoose");
+
+const SubjectResultSchema = new mongoose.Schema({
+  subject: {
+    type: String,
+    required: true,
+  },
+  test: Number,
+  exam: Number,
+  totalScore: Number,
+  grade: String,
+  remark: String,
+});
 
 const Basic1resultSchema = new mongoose.Schema(
   {
@@ -17,330 +29,378 @@ const Basic1resultSchema = new mongoose.Schema(
     term: {
       type: String,
     },
-
     schoolRegNumber: {
       type: String,
     },
-    English: [
-      {
-        test: {
-          type: Number,
-        },
-        exam: {
-          type: Number,
-        },
-        totalScore: {
-          type: Number,
-        },
-        grade: {
-          type: String,
-        },
-        remark: {
-          type: String,
-        },
-      },
-    ],
-    Mathematics: [
-      {
-        test: {
-          type: Number,
-        },
-        exam: {
-          type: Number,
-        },
-        totalScore: {
-          type: Number,
-        },
-        grade: {
-          type: String,
-        },
-        remark: {
-          type: String,
-        },
-      },
-    ],
-    VerbalReasoning: [
-      {
-        test: {
-          type: Number,
-        },
-        exam: {
-          type: Number,
-        },
-        totalScore: {
-          type: Number,
-        },
-        grade: {
-          type: String,
-        },
-        remark: {
-          type: String,
-        },
-      },
-    ],
-    QuantitativeReasoning: [
-      {
-        test: {
-          type: Number,
-        },
-        exam: {
-          type: Number,
-        },
-        totalScore: {
-          type: Number,
-        },
-        grade: {
-          type: String,
-        },
-        remark: {
-          type: String,
-        },
-      },
-    ],
-    BasicScience: [
-      {
-        test: {
-          type: Number,
-        },
-        exam: {
-          type: Number,
-        },
-        totalScore: {
-          type: Number,
-        },
-        grade: {
-          type: String,
-        },
-        remark: {
-          type: String,
-        },
-      },
-    ],
-    NationalValues: [
-      {
-        test: {
-          type: Number,
-        },
-        exam: {
-          type: Number,
-        },
-        totalScore: {
-          type: Number,
-        },
-        grade: {
-          type: String,
-        },
-        remark: {
-          type: String,
-        },
-      },
-    ],
-    CRK: [
-      {
-        test: {
-          type: Number,
-        },
-        exam: {
-          type: Number,
-        },
-        totalScore: {
-          type: Number,
-        },
-        grade: {
-          type: String,
-        },
-        remark: {
-          type: String,
-        },
-      },
-    ],
-    CreativeArt: [
-      {
-        test: {
-          type: Number,
-        },
-        exam: {
-          type: Number,
-        },
-        totalScore: {
-          type: Number,
-        },
-        grade: {
-          type: String,
-        },
-        remark: {
-          type: String,
-        },
-      },
-    ],
-    History: [
-      {
-        test: {
-          type: Number,
-        },
-        exam: {
-          type: Number,
-        },
-        totalScore: {
-          type: Number,
-        },
-        grade: {
-          type: String,
-        },
-        remark: {
-          type: String,
-        },
-      },
-    ],
-    Phonics: [
-      {
-        test: {
-          type: Number,
-        },
-        exam: {
-          type: Number,
-        },
-        totalScore: {
-          type: Number,
-        },
-        grade: {
-          type: String,
-        },
-        remark: {
-          type: String,
-        },
-      },
-    ],
-    French: [
-      {
-        test: {
-          type: Number,
-        },
-        exam: {
-          type: Number,
-        },
-        totalScore: {
-          type: Number,
-        },
-        grade: {
-          type: String,
-        },
-        remark: {
-          type: String,
-        },
-      },
-    ],
-    Igbo: [
-      {
-        test: {
-          type: Number,
-        },
-        exam: {
-          type: Number,
-        },
-        totalScore: {
-          type: Number,
-        },
-        grade: {
-          type: String,
-        },
-        remark: {
-          type: String,
-        },
-      },
-    ],
-    PVC: [
-      {
-        test: {
-          type: Number,
-        },
-        exam: {
-          type: Number,
-        },
-        totalScore: {
-          type: Number,
-        },
-        grade: {
-          type: String,
-        },
-        remark: {
-          type: String,
-        },
-      },
-    ],
-    Computer: [
-      {
-        test: {
-          type: Number,
-        },
-        exam: {
-          type: Number,
-        },
-        totalScore: {
-          type: Number,
-        },
-        grade: {
-          type: String,
-        },
-        remark: {
-          type: String,
-        },
-      },
-    ],
-    HandWriting: [
-      {
-        test: {
-          type: Number,
-        },
-        exam: {
-          type: Number,
-        },
-        totalScore: {
-          type: Number,
-        },
-        grade: {
-          type: String,
-        },
-        remark: {
-          type: String,
-        },
-      },
-    ],
-    TotalScore: {
-      type: Number,
+    subjects: [SubjectResultSchema], // ← dynamic subject result array
+
+    TotalScore: Number,
+    TotalAverage: String,
+    Position: String,
+    numberInClass: Number,
+    TotalGrade: String,
+    Remark: String,
+    HmRemark: String,
+    Signature: String,
+    deActivateResultEdith: {
+      type: Boolean,
+      default: false,
     },
-    TotalAverage: {
-      type: String,
-    },
-    Position: {
-      type: String,
-    },
-    numberInClass: {
-      type: Number,
-    },
-    TotalGrade: {
-      type: String,
-    },
-    Remark: {
-      type: String,
-    },
-    HmRemark: {
-      type: String,
-    },
-    Signature: {
-      type: String,
-    },
-    deActivateResultEdith: { type: Boolean, default: false },
   },
   {
     timestamps: true,
-    toJSON: {
-      virtual: true,
-    },
-    toObject: {
-      virtual: true,
-    },
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true },
   }
 );
 
 module.exports = mongoose.model("Basic1result", Basic1resultSchema);
+
+
+
+// resultModel.js
+// const mongoose = require("mongoose");
+
+// const Basic1resultSchema = new mongoose.Schema(
+//   {
+//     user: {
+//       type: mongoose.Schema.Types.ObjectId,
+//       required: true,
+//       ref: "User",
+//     },
+//     classes: {
+//       type: String,
+//     },
+//     year: {
+//       type: String,
+//     },
+//     term: {
+//       type: String,
+//     },
+
+//     schoolRegNumber: {
+//       type: String,
+//     },
+//     English: [
+//       {
+//         test: {
+//           type: Number,
+//         },
+//         exam: {
+//           type: Number,
+//         },
+//         totalScore: {
+//           type: Number,
+//         },
+//         grade: {
+//           type: String,
+//         },
+//         remark: {
+//           type: String,
+//         },
+//       },
+//     ],
+//     Mathematics: [
+//       {
+//         test: {
+//           type: Number,
+//         },
+//         exam: {
+//           type: Number,
+//         },
+//         totalScore: {
+//           type: Number,
+//         },
+//         grade: {
+//           type: String,
+//         },
+//         remark: {
+//           type: String,
+//         },
+//       },
+//     ],
+//     VerbalReasoning: [
+//       {
+//         test: {
+//           type: Number,
+//         },
+//         exam: {
+//           type: Number,
+//         },
+//         totalScore: {
+//           type: Number,
+//         },
+//         grade: {
+//           type: String,
+//         },
+//         remark: {
+//           type: String,
+//         },
+//       },
+//     ],
+//     QuantitativeReasoning: [
+//       {
+//         test: {
+//           type: Number,
+//         },
+//         exam: {
+//           type: Number,
+//         },
+//         totalScore: {
+//           type: Number,
+//         },
+//         grade: {
+//           type: String,
+//         },
+//         remark: {
+//           type: String,
+//         },
+//       },
+//     ],
+//     BasicScience: [
+//       {
+//         test: {
+//           type: Number,
+//         },
+//         exam: {
+//           type: Number,
+//         },
+//         totalScore: {
+//           type: Number,
+//         },
+//         grade: {
+//           type: String,
+//         },
+//         remark: {
+//           type: String,
+//         },
+//       },
+//     ],
+//     NationalValues: [
+//       {
+//         test: {
+//           type: Number,
+//         },
+//         exam: {
+//           type: Number,
+//         },
+//         totalScore: {
+//           type: Number,
+//         },
+//         grade: {
+//           type: String,
+//         },
+//         remark: {
+//           type: String,
+//         },
+//       },
+//     ],
+//     CRK: [
+//       {
+//         test: {
+//           type: Number,
+//         },
+//         exam: {
+//           type: Number,
+//         },
+//         totalScore: {
+//           type: Number,
+//         },
+//         grade: {
+//           type: String,
+//         },
+//         remark: {
+//           type: String,
+//         },
+//       },
+//     ],
+//     CreativeArt: [
+//       {
+//         test: {
+//           type: Number,
+//         },
+//         exam: {
+//           type: Number,
+//         },
+//         totalScore: {
+//           type: Number,
+//         },
+//         grade: {
+//           type: String,
+//         },
+//         remark: {
+//           type: String,
+//         },
+//       },
+//     ],
+//     History: [
+//       {
+//         test: {
+//           type: Number,
+//         },
+//         exam: {
+//           type: Number,
+//         },
+//         totalScore: {
+//           type: Number,
+//         },
+//         grade: {
+//           type: String,
+//         },
+//         remark: {
+//           type: String,
+//         },
+//       },
+//     ],
+//     Phonics: [
+//       {
+//         test: {
+//           type: Number,
+//         },
+//         exam: {
+//           type: Number,
+//         },
+//         totalScore: {
+//           type: Number,
+//         },
+//         grade: {
+//           type: String,
+//         },
+//         remark: {
+//           type: String,
+//         },
+//       },
+//     ],
+//     French: [
+//       {
+//         test: {
+//           type: Number,
+//         },
+//         exam: {
+//           type: Number,
+//         },
+//         totalScore: {
+//           type: Number,
+//         },
+//         grade: {
+//           type: String,
+//         },
+//         remark: {
+//           type: String,
+//         },
+//       },
+//     ],
+//     Igbo: [
+//       {
+//         test: {
+//           type: Number,
+//         },
+//         exam: {
+//           type: Number,
+//         },
+//         totalScore: {
+//           type: Number,
+//         },
+//         grade: {
+//           type: String,
+//         },
+//         remark: {
+//           type: String,
+//         },
+//       },
+//     ],
+//     PVC: [
+//       {
+//         test: {
+//           type: Number,
+//         },
+//         exam: {
+//           type: Number,
+//         },
+//         totalScore: {
+//           type: Number,
+//         },
+//         grade: {
+//           type: String,
+//         },
+//         remark: {
+//           type: String,
+//         },
+//       },
+//     ],
+//     Computer: [
+//       {
+//         test: {
+//           type: Number,
+//         },
+//         exam: {
+//           type: Number,
+//         },
+//         totalScore: {
+//           type: Number,
+//         },
+//         grade: {
+//           type: String,
+//         },
+//         remark: {
+//           type: String,
+//         },
+//       },
+//     ],
+//     HandWriting: [
+//       {
+//         test: {
+//           type: Number,
+//         },
+//         exam: {
+//           type: Number,
+//         },
+//         totalScore: {
+//           type: Number,
+//         },
+//         grade: {
+//           type: String,
+//         },
+//         remark: {
+//           type: String,
+//         },
+//       },
+//     ],
+//     TotalScore: {
+//       type: Number,
+//     },
+//     TotalAverage: {
+//       type: String,
+//     },
+//     Position: {
+//       type: String,
+//     },
+//     numberInClass: {
+//       type: Number,
+//     },
+//     TotalGrade: {
+//       type: String,
+//     },
+//     Remark: {
+//       type: String,
+//     },
+//     HmRemark: {
+//       type: String,
+//     },
+//     Signature: {
+//       type: String,
+//     },
+//     deActivateResultEdith: { type: Boolean, default: false },
+//   },
+//   {
+//     timestamps: true,
+//     toJSON: {
+//       virtual: true,
+//     },
+//     toObject: {
+//       virtual: true,
+//     },
+//   }
+// );
+
+// module.exports = mongoose.model("Basic1result", Basic1resultSchema);

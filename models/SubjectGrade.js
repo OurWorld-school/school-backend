@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const ClassSchema = new mongoose.Schema(
+const SubjectGradeSchema = new mongoose.Schema(
   {
     schoolName: {
       type: mongoose.Schema.Types.ObjectId,
@@ -11,8 +11,12 @@ const ClassSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    cutOffMark: {
+      type: Number,
+      required: true,
+    },
   },
   { timestamps: true }
 );
 
-module.exports = mongoose.model("Class", ClassSchema);
+module.exports = mongoose.model("SubjectGrade", SubjectGradeSchema);
