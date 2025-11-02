@@ -25,8 +25,13 @@ const UserSchema = new mongoose.Schema(
       type: String,
     },
 
+    // currentClass: {
+    //   type: String,
+    // },
+
     currentClass: {
-      type: String,
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Class",
     },
     phoneNumber: {
       type: String,
@@ -42,16 +47,20 @@ const UserSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    archiveStudent: {
+      type: Boolean,
+      default: false,
+    },
     deactivateUserRole: {
       type: Boolean,
       default: false,
     },
     userType: { type: String, default: "Student" },
 
-    deactivateUserRole: {
-      type: Boolean,
-      default: false,
-    },
+    results: [{ type: mongoose.Schema.Types.ObjectId, ref: "Result" }],
+    communativeResults: [
+      { type: mongoose.Schema.Types.ObjectId, ref: "CommunativeResult" },
+    ],
     password: {
       type: String,
       // required: true,
@@ -113,17 +122,6 @@ const UserSchema = new mongoose.Schema(
 
   { timestamps: true }
 );
-// UserSchema.pre("save", async function (next) {
-//   if (!this.isModified("password")) return next(); // Prevent re-hashing
-//   try {
-//     const salt = await bcrypt.genSalt(10);
-//     const hashedPassword = await bcrypt.hash(this.password, salt);
-//     this.password = hashedPassword;
-//     next();
-//   } catch (error) {
-//     next(error);
-//   }
-// });
 
 UserSchema.pre("save", async function (next) {
   try {

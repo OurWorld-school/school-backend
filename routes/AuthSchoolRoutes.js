@@ -48,27 +48,28 @@ router.post("/", async (req, res) => {
       postalCode: req.body.postalCode,
     });
     //nodemailer
-    const mailOptions = {
-      from: "djnchrys@gmail.com",
-      to: req.body.email,
-      subject: "Your School Registration is Successful",
-      html: `<p>Hello ${req.body.name},</p>
-      <p>Thank you for registering with myeduresult.com
-       Your account has successfully been created.</p><p>Kindly call +2348136757488 incase if you have any suggestion or Observation Thanks.
-       Myeduresult is a school management system which helps schools to upload their terminal result and also for students to check their terminal result. </p><p>Click <a href="https://myeduresult.com/">here</a> to visit the site</p>`,
-    };
-    //save user and respond
-    const school = await newSchool.save();
-    transporter.sendMail(mailOptions, (err, info) => {
-      if (err) {
-        console.error("Error sending email:", err);
-      } else {
-        console.log("Email sent:", info.response);
-      }
-    });
-    // await ProductMarketer.findByIdAndUpdate(productMarketer, {
-    //   $push: { schoolName: newSchool.name },
+    // const mailOptions = {
+    //   from: "djnchrys@gmail.com",
+    //   to: req.body.email,
+    //   subject: "Your School Registration is Successful",
+    //   html: `<p>Hello ${req.body.name},</p>
+    //   <p>Thank you for registering with myeduresult.com
+    //    Your account has successfully been created.</p><p>Kindly call +2348136757488 incase if you have any suggestion or Observation Thanks.
+    //    Myeduresult is a school management system which helps schools to upload their terminal result and also for students to check their terminal result. </p><p>Click <a href="https://myeduresult.com/">here</a> to visit the site</p>`,
+    // };
+    // //save user and respond
+    // const school = await newSchool.save();
+    // transporter.sendMail(mailOptions, (err, info) => {
+    //   if (err) {
+    //     console.error("Error sending email:", err);
+    //   } else {
+    //     console.log("Email sent:", info.response);
+    //   }
     // });
+    // // await ProductMarketer.findByIdAndUpdate(productMarketer, {
+    // //   $push: { schoolName: newSchool.name },
+    // // });
+    const school = await newSchool.save();
     res.status(200).json({
       // token: generateToken(user._id),
       _id: school._id,

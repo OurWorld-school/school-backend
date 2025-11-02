@@ -1,17 +1,52 @@
 const router = require("express").Router();
 const User = require("../models/User");
 const bcrypt = require("bcryptjs");
+const School = require("../models/School");
 router.get("/", async (req, res) => {
   try {
-    const users = await User.find({}).sort({ createdAt: -1 });
+    const users = await User.find({})
+      .sort({ createdAt: -1 })
+      .populate("schoolName", ["name"])
+      .populate("currentClass", ["name"]);
     res.json(users);
   } catch (err) {
     res.status(500).json(err);
   }
 });
+router.put("/add-school", async (req, res) => {
+  try {
+    const { schoolId } = req.body;
+
+    if (!schoolId) {
+      return res.status(400).json({ message: "schoolId is required" });
+    }
+
+    // Check if the provided schoolId exists
+    const schoolExists = await School.findById(schoolId);
+    if (!schoolExists) {
+      return res.status(404).json({ message: "School not found" });
+    }
+
+    // Update all users that don't already have a schoolName
+    const result = await User.updateMany(
+      { schoolName: { $exists: false } }, // or remove this filter to update all
+      { $set: { schoolName: schoolId } }
+    );
+
+    res.status(200).json({
+      message: "School ID added to users successfully",
+      updatedCount: result.modifiedCount,
+    });
+  } catch (error) {
+    console.error("Error updating users:", error);
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
+});
 router.get("/:id", async (req, res) => {
   try {
-    const user = await User.findById(req.params.id);
+    const user = await User.findById(req.params.id)
+      .populate("schoolName", ["name"])
+      .populate("currentClass", ["name"]);
 
     res.status(200).json(user);
   } catch (err) {
