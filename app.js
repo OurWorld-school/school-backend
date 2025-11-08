@@ -58,6 +58,17 @@ const config = require("config");
 
 const router = express.Router();
 const app = express();
+app.use(
+  cors({
+    origin: [
+      "http://localhost:3000", // your local frontend
+      "https://ourworldintschool.ng", // your deployed frontend
+    ],
+    methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+    credentials: true, // if you’re using cookies or auth headers
+  })
+);
 app.use(cors());
 app.use(
   compression({
@@ -150,10 +161,10 @@ app.use("/api/DirectorsGrade", directorsGradeRoutes);
 // app.use("/api/NoScratchCard", NoScratchCardRoutes);
 // app.use("/api/ScratchCardPayment", scratchCardPaymentRoutes);
 /////
-app.use(express.static(path.join(__dirname, "/build")));
-app.get("*", (req, res) =>
-  res.sendFile(path.join(__dirname, "build/index.html"))
-);
+// app.use(express.static(path.join(__dirname, "/build")));
+// app.get("*", (req, res) =>
+//   res.sendFile(path.join(__dirname, "build/index.html"))
+// );
 const PORT = process.env.PORT || 5000;
 
 app.listen(

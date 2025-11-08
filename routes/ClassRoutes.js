@@ -57,42 +57,35 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-router.delete("/delete/:id", async (req, res) => {
+router.delete("/:classId/:schoolId", async (req, res) => {
   try {
-    const classes = await Class.findByIdAndDelete(req.params.id);
-    if (classes) {
-      res.status(200).json({ message: "This Class has been deleted" });
-    } else {
-      res.status(404).json({ message: "Class not found" });
-    }
-  } catch (error) {
-    res.status(500).json(error);
-  }
-});
-router.delete("/delete/:id/:schoolId", async (req, res) => {
-  const { schoolId } = req.params;
-  try {
-    // const schoolId = req.body.schoolId; // Assuming the schoolId is passed in the request body
-    const school = await School.findById(schoolId);
+    const { schoolId, classId } = req.params;
 
-    // Check if the school exists and if the user is an admin
-    if (!school) {
-      return res.status(404).json({ message: "School not found" });
+    // Find and delete the class that matches both schoolId and classId
+    const deletedClass = await Class.findOneAndDelete({
+      _id: classId,
+      schoolName: schoolId,
+    });
+
+    if (!deletedClass) {
+      return res.status(404).json({
+        success: false,
+        message: "Class not found or does not belong to this school",
+      });
     }
 
-    if (!school.isAdmin) {
-      return res
-        .status(403)
-        .json({ message: "Only a school director can make this request" });
-    }
-    const classes = await Class.findByIdAndDelete(req.params.id);
-    if (classes) {
-      res.status(200).json({ message: "This Class has been deleted" });
-    } else {
-      res.status(404).json({ message: "Class not found" });
-    }
+    res.status(200).json({
+      success: true,
+      message: "Class deleted successfully",
+      data: deletedClass,
+    });
   } catch (error) {
-    res.status(500).json(error);
+    console.error("Error deleting class:", error);
+    res.status(500).json({
+      success: false,
+      message: "Internal Server Error",
+      error: error.message,
+    });
   }
 });
 router.put("/update/:id", async (req, res) => {

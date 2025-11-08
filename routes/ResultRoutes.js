@@ -85,6 +85,7 @@ router.get("/", async (req, res) => {
         "phoneNumber",
         "schoolLogo",
         "schoolStamp",
+        "schoolStamp",
       ]);
 
     res.json(results);
@@ -113,6 +114,7 @@ router.get("/:id", async (req, res) => {
         "country",
         "phoneNumber",
         "schoolLogo",
+        "schoolStamp",
       ]);
     res.status(200).json(result);
   } catch (err) {
@@ -150,6 +152,7 @@ router.get("/results/:school/:classes/:user/:year/:term/", async (req, res) => {
         "country",
         "phoneNumber",
         "schoolLogo",
+        "schoolStamp",
       ]);
 
     if (!results) {
@@ -252,51 +255,12 @@ router.put("/updateResultPosition/:id", async (req, res) => {
   }
 });
 ///////Asign position Automatically
-router.post("/update-positions", async (req, res) => {
-  const { schoolName, classes, year, term } = req.body;
 
-  try {
-    // Fetch students from the same school, class, year, and term, sorted by grandAverage in descending order
-    const students = await Result.find({
-      schoolName,
-      classes,
-      year,
-      term,
-    }).sort({ TotalAverage: -1 });
-
-    // Update positions
-    for (let i = 0; i < students.length; i++) {
-      let position = `${i + 1}${getOrdinalSuffix(i + 1)}`;
-      students[i].Position = position;
-      await students[i].save();
-    }
-
-    res.json({ message: "Positions updated successfully", students });
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-});
-
-// Function to get ordinal suffix (1st, 2nd, 3rd, etc.)
-function getOrdinalSuffix(i) {
-  const j = i % 10;
-  const k = i % 100;
-  if (j === 1 && k !== 11) {
-    return "st";
-  }
-  if (j === 2 && k !== 12) {
-    return "nd";
-  }
-  if (j === 3 && k !== 13) {
-    return "rd";
-  }
-  return "th";
-}
 router.post("/update-positions-tie", async (req, res) => {
   const { schoolName, classes, year, term } = req.body;
 
   try {
-    // Fetch students from the same school, class, year, and term, sorted by TotalAverage in descending order
+    // Fetch and sort students
     const students = await Result.find({
       schoolName,
       classes,
@@ -304,24 +268,32 @@ router.post("/update-positions-tie", async (req, res) => {
       term,
     }).sort({ TotalAverage: -1 });
 
-    // Update positions with handling ties
-    let position = 1;
+    if (!students.length) {
+      return res
+        .status(404)
+        .json({ message: "No students found for criteria" });
+    }
+
+    let position = 1; // current position number
+    let prevAverage = null; // track previous student's average
+    let tieCount = 0; // number of tied students for last position
+
     for (let i = 0; i < students.length; i++) {
-      if (i > 0 && students[i].TotalAverage === students[i - 1].TotalAverage) {
-        // If current student's TotalAverage is the same as the previous student, assign the same position
+      const currentAverage = Number(students[i].TotalAverage);
+
+      if (prevAverage !== null && currentAverage === prevAverage) {
+        // Same score as previous student → same position
         students[i].Position = students[i - 1].Position;
+        tieCount++;
       } else {
-        // Otherwise, assign the current position
+        // Different score → move position forward by number of tied students
+        position += tieCount;
         students[i].Position = `${position}${getOrdinalSuffix(position)}`;
+        tieCount = 1; // reset tie count
       }
 
-      // Save the updated student record
+      prevAverage = currentAverage;
       await students[i].save();
-
-      // Increment the position count, but skip the number of tied students
-      if (i > 0 && students[i].TotalAverage !== students[i - 1].TotalAverage) {
-        position = i + 1;
-      }
     }
 
     res.json({ message: "Positions updated successfully", students });
@@ -330,19 +302,14 @@ router.post("/update-positions-tie", async (req, res) => {
   }
 });
 
-// Function to get ordinal suffix (1st, 2nd, 3rd, etc.)
+// Helper
 function getOrdinalSuffix(i) {
-  const j = i % 10;
-  const k = i % 100;
-  if (j === 1 && k !== 11) {
-    return "st";
-  }
-  if (j === 2 && k !== 12) {
-    return "nd";
-  }
-  if (j === 3 && k !== 13) {
-    return "rd";
-  }
+  const j = i % 10,
+    k = i % 100;
+  if (j === 1 && k !== 11) return "st";
+  if (j === 2 && k !== 12) return "nd";
+  if (j === 3 && k !== 13) return "rd";
   return "th";
 }
+
 module.exports = router;

@@ -89,7 +89,8 @@ router.put("/update/:id", async (req, res) => {
 
     // Update the user's current class
     grades.gradeName = gradeName.replace(/\s+/g, "_") || grades.gradeName;
-    grades.gradeName = gradeRemark.replace(/\s+/g, "_") || grades.gradeRemark;
+    grades.gradeRemark = gradeRemark.replace(/\s+/g, "_") || grades.gradeRemark;
+    gradeRange = req.body.gradeRange || grades.gradeRange;
     await grades.save();
 
     res.json({ message: "Result Grade updated successfully" });
