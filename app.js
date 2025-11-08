@@ -58,17 +58,17 @@ const config = require("config");
 
 const router = express.Router();
 const app = express();
-app.use(
-  cors({
-    origin: [
-      "http://localhost:3000", // your local frontend
-      "https://ourworldintschool.ng", // your deployed frontend
-    ],
-    methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization"],
-    credentials: true, // if you’re using cookies or auth headers
-  })
-);
+// app.use(
+//   cors({
+//     origin: [
+//       "http://localhost:3000", // your local frontend
+//       "https://ourworldintschool.ng", // your deployed frontend
+//     ],
+//     methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
+//     allowedHeaders: ["Content-Type", "Authorization"],
+//     credentials: true, // if you’re using cookies or auth headers
+//   })
+// );
 app.use(cors());
 app.use(
   compression({
