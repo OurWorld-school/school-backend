@@ -60,13 +60,13 @@ router.post("/registers", async (req, res) => {
   }
 });
 //REGISTER
-const transporter = nodemailer.createTransport({
-  service: "gmail",
-  auth: {
-    user: "djnchrys@gmail.com",
-    pass: "mictdtqklnuerfkg",
-  },
-});
+// const transporter = nodemailer.createTransport({
+//   service: "gmail",
+//   auth: {
+//     user: "djnchrys@gmail.com",
+//     pass: "mictdtqklnuerfkg",
+//   },
+// });
 router.post("/register", async (req, res) => {
   const { schoolRegNumber } = req.body;
   //  const {class}=req.body;
@@ -114,13 +114,13 @@ router.post("/register", async (req, res) => {
 
     //save user and respond
     const user = await newUser.save();
-    transporter.sendMail(mailOptions, (err, info) => {
-      if (err) {
-        console.error("Error sending email:", err);
-      } else {
-        console.log("Email sent:", info.response);
-      }
-    });
+    // transporter.sendMail(mailOptions, (err, info) => {
+    //   if (err) {
+    //     console.error("Error sending email:", err);
+    //   } else {
+    //     console.log("Email sent:", info.response);
+    //   }
+    // });
     res.status(200).json({
       // token: generateToken(user._id),
       _id: user._id,
@@ -210,13 +210,13 @@ router.post("/logins", async (req, res) => {
     const user = await User.findOne({ phoneNumber });
 
     if (!user) {
-      return res.status(401).send("Invalid credentials");
+      return res.status(401).send("Invalid User");
     }
 
     const isPasswordMatch = await bcrypt.compare(password, user.password);
 
     if (!isPasswordMatch) {
-      return res.status(401).send("Invalid credentials");
+      return res.status(401).send("Invalid password");
     }
 
     // Set up a session or JWT token here if needed
@@ -239,7 +239,7 @@ router.post("/student-login", async (req, res) => {
 
     const isMatch = await bcrypt.compare(req.body.password, user.password);
     if (!isMatch) {
-      return res.status(400).json({ message: "Invalid credentials" });
+      return res.status(400).json({ message: "Invalid password" });
     }
 
     // const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
