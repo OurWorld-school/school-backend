@@ -79,7 +79,7 @@ router.delete("/delete/:id", async (req, res) => {
 });
 router.put("/update/:id", async (req, res) => {
   const { id } = req.params;
-  const { gradeName, gradeRemark } = req.body;
+  const { gradeName, gradeRemark, gradeRange } = req.body;
   try {
     const grades = await GradeMarks.findById(id);
 
@@ -90,7 +90,7 @@ router.put("/update/:id", async (req, res) => {
     // Update the user's current class
     grades.gradeName = gradeName.replace(/\s+/g, "_") || grades.gradeName;
     grades.gradeRemark = gradeRemark.replace(/\s+/g, "_") || grades.gradeRemark;
-    gradeRange = req.body.gradeRange || grades.gradeRange;
+    gradeRange = gradeRange || grades.gradeRange;
     await grades.save();
 
     res.json({ message: "Result Grade updated successfully" });
