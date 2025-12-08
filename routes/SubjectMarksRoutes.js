@@ -267,4 +267,21 @@ router.put("/deactivateResultEdit", async (req, res) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
+router.delete("delete/:id", async (req, res) => {
+  try {
+    const subjectMarks = await SubjectMarks.findByIdAndDelete(req.params.id);
+
+    if (!subjectMarks) {
+      return res.status(404).json({ message: "SubjectMarks not found" });
+    }
+
+    return res.status(200).json({
+      message: "SubjectMarks deleted successfully",
+      deleted: subjectMarks,
+    });
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+});
+
 module.exports = router;
