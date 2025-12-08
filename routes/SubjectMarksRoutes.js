@@ -5,8 +5,71 @@ const Subjects = require("../models/Subjects");
 const router = require("express").Router();
 
 // /registerin
-
 router.post("/", async (req, res) => {
+  const classId = req.body.classes;
+  const schoolId = req.body.schoolName;
+  const userId = req.body.user;
+  const { year, term, subjects } = req.body;
+
+  const modifyTerm = term.replace(/\s+/g, "_");
+
+  const subjectScore = subjects.map((item) => ({
+    subjectName: item.subjectName,
+    test: item.test,
+    exam: item.exam,
+    totalScore: item.totalScore,
+    grade: item.grade,
+    remark: item.remark,
+  }));
+
+  try {
+    // Extract subject names
+    const subjectNames = subjects.map((s) => s.subjectName);
+
+    // Prevent duplicate entries
+    const existingSubjectMarks = await SubjectMarks.findOne({
+      user: userId,
+      schoolName: schoolId,
+      classes: classId,
+      year,
+      term: modifyTerm,
+      "subjects.subjectName": { $in: subjectNames },
+    });
+
+    if (existingSubjectMarks) {
+      return res.status(409).json({
+        error:
+          "One or more subjects already exist for this user in the selected term and year.",
+      });
+    }
+
+    // Create new result
+    const newSubjectMarks = new SubjectMarks({
+      subjects: subjectScore,
+      user: userId,
+      classes: classId,
+      year,
+      term: modifyTerm,
+      schoolName: schoolId,
+    });
+
+    const subjectsMarks = await newSubjectMarks.save();
+
+    res.status(200).json({
+      _id: subjectsMarks._id,
+      user: subjectsMarks.user,
+      subjects: subjectsMarks.subjects,
+      classes: subjectsMarks.classes,
+      year: subjectsMarks.year,
+      schoolName: subjectsMarks.schoolName,
+      term: subjectsMarks.term,
+    });
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
+router.post("/old", async (req, res) => {
   const classId = req.body.classes;
   const schoolId = req.body.schoolName;
   const userId = req.body.user;
