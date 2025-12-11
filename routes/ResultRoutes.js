@@ -24,6 +24,7 @@ router.post("/", async (req, res) => {
       term,
       user: userId,
       classes,
+      schoolId,
     });
 
     if (ResultAlreadyExits) {
@@ -311,5 +312,22 @@ function getOrdinalSuffix(i) {
   if (j === 3 && k !== 13) return "rd";
   return "th";
 }
+
+router.delete("delete/:id", async (req, res) => {
+  try {
+    const result = await Result.findByIdAndDelete(req.params.id);
+
+    if (!result) {
+      return res.status(404).json({ message: "result not found" });
+    }
+
+    return res.status(200).json({
+      message: "result deleted successfully",
+      deleted: result,
+    });
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+});
 
 module.exports = router;

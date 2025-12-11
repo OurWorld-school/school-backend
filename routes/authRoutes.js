@@ -502,5 +502,30 @@ router.post("/reset-user-password", async (req, res) => {
   }
 });
 
+router.post("/reset-user-password/staff", async (req, res) => {
+  const { phoneNumber, newPassword } = req.body;
+
+  try {
+    // Find the user by registration number
+    const user = await User.findOne({ phoneNumber });
+
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    // Hash the new password
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+    // Update the user's password
+    await User.updateOne({ phoneNumber }, { password: hashedPassword });
+    // user.password = hashedPassword;
+    // await user.save();
+
+    res.json({ message: "Password reset successful" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Failed to reset password" });
+  }
+});
 ////////
 module.exports = router;
