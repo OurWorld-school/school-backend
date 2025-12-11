@@ -10,7 +10,10 @@ router.post("/", async (req, res) => {
   const schoolId = req.body.schoolName;
   const modifyName = name.replace(/\s+/g, "_");
   try {
-    const existingClass = await Class.findOne({ name, schoolName: schoolId });
+    const existingClass = await Class.findOne({
+      modifyName,
+      schoolName: schoolId,
+    });
 
     if (existingClass) {
       return res

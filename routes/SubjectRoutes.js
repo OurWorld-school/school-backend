@@ -13,7 +13,7 @@ router.post("/", async (req, res) => {
   const modifyName = name.replace(/\s+/g, "_");
   try {
     const existingSubject = await Subjects.findOne({
-      name,
+      modifyName,
       classes: classId,
       schoolName: schoolId,
     });
